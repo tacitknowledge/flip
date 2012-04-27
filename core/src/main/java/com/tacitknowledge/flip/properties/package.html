@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        Classes used to define the property readers. Property reader is a class 
+        used to retrieve the feature values and rules that define them.
+        <p>
+            To create your own property reader you should create a class that implements
+            <a href="PropertyReader.html">PropertyReader</a> interface and annotate it with <a href="FlipProperty.html">FlipProperty</a> annotation.
+            The <a href="FlipProperty.html">FlipProperty</a> annotation has a property 
+            <a href="FlipProperty.html#priority">FlipProperty.priority</a> which allows 
+            for developers to specify the priority of property readers when the feature descriptor
+            is looked up.
+        </p>
+        <p>
+            The property readers are managed by <a href="PropertyManager.html">PropertyManager</a>. It knows 
+            how to ask them for a feature descriptor.
+        </p>
+    </body>
+</html>

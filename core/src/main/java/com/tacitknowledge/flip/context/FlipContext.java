@@ -12,26 +12,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.tacitknowledge.flip;
+package com.tacitknowledge.flip.context;
 
-import com.tacitknowledge.flip.model.FeatureState;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Contract for Feature Services, capable of determining state of a given feature.
+ * The annotation used to mark context providers.
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  * @author Petric Coroli <pcoroli@tacitknowledge.com>
  */
-public interface FeatureService
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface FlipContext
 {
     /**
-     * This method is used to obtain {@link FeatureState} value for the provided
-     * feature name.
-     * 
-     * @param name this is the name of the feature to obtain state for.
-     * @return one of values of {@link FeatureState}. The general rule is 
-     *  if feature is enabled, returned value is {@link FeatureState#ENABLED}, 
-     *  otherwise - {@link FeatureState#DISABLED}
+     * Specifies the name of context.
      */
-    FeatureState getFeatureState(String name);
+    String name();
+
+    /**
+     * Specifies the priority of this context. This priority is used to 
+     * order the contexts when the property is searched. The system contexts
+     * has a priority equal to {@code 100}.
+     */
+    int priority() default 2012;
 }

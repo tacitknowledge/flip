@@ -12,26 +12,34 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.tacitknowledge.flip;
+package com.tacitknowledge.flip.properties;
 
-import com.tacitknowledge.flip.model.FeatureState;
+import java.util.Properties;
 
 /**
- * Contract for Feature Services, capable of determining state of a given feature.
+ * Abstract property reader. This class only stores the configuration to be able address to it later. 
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
- * @author Petric Coroli <pcoroli@tacitknowledge.com>
  */
-public interface FeatureService
+public abstract class AbstractPropertyReader implements PropertyReader
 {
+    private Properties config;
+    
     /**
-     * This method is used to obtain {@link FeatureState} value for the provided
-     * feature name.
-     * 
-     * @param name this is the name of the feature to obtain state for.
-     * @return one of values of {@link FeatureState}. The general rule is 
-     *  if feature is enabled, returned value is {@link FeatureState#ENABLED}, 
-     *  otherwise - {@link FeatureState#DISABLED}
+     * {@inheritDoc }
      */
-    FeatureState getFeatureState(String name);
+    @Override
+    public void initialize(final Properties config)
+    {
+        this.config = config;
+    }
+    
+    /**
+     * Returns the configuration properties passed on initialization stage. 
+     * 
+     * @return the properties with configuration options.
+     */
+    protected Properties getConfig() {
+        return config;
+    }
 }

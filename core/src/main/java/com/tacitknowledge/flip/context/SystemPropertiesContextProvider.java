@@ -12,26 +12,31 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.tacitknowledge.flip;
+package com.tacitknowledge.flip.context;
 
-import com.tacitknowledge.flip.model.FeatureState;
+import java.util.Properties;
 
 /**
- * Contract for Feature Services, capable of determining state of a given feature.
+ * The context provider used to retrieve the properties from system properties.
+ * This class will return all of properties from {@link java.lang.System#getProperties()}.
+ * To access these properties you will have to write the expression like this:
+ * {@code system['user.home']}.
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  * @author Petric Coroli <pcoroli@tacitknowledge.com>
  */
-public interface FeatureService
+@FlipContext(name = "system", priority = 100)
+public class SystemPropertiesContextProvider
 {
+    
     /**
-     * This method is used to obtain {@link FeatureState} value for the provided
-     * feature name.
+     * Returns the system properties which will be added to context as they are.
      * 
-     * @param name this is the name of the feature to obtain state for.
-     * @return one of values of {@link FeatureState}. The general rule is 
-     *  if feature is enabled, returned value is {@link FeatureState#ENABLED}, 
-     *  otherwise - {@link FeatureState#DISABLED}
+     * @return system properties.
      */
-    FeatureState getFeatureState(String name);
+    @FlipContextProperty()
+    public Properties getAllProperties()
+    {
+        return System.getProperties();
+    }
 }

@@ -12,26 +12,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.tacitknowledge.flip;
-
-import com.tacitknowledge.flip.model.FeatureState;
+package com.tacitknowledge.flip.context;
 
 /**
- * Contract for Feature Services, capable of determining state of a given feature.
+ * Exception that is thrown in case of a missing value.
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  * @author Petric Coroli <pcoroli@tacitknowledge.com>
  */
-public interface FeatureService
+public class MissingValueException extends Exception
 {
-    /**
-     * This method is used to obtain {@link FeatureState} value for the provided
-     * feature name.
-     * 
-     * @param name this is the name of the feature to obtain state for.
-     * @return one of values of {@link FeatureState}. The general rule is 
-     *  if feature is enabled, returned value is {@link FeatureState#ENABLED}, 
-     *  otherwise - {@link FeatureState#DISABLED}
-     */
-    FeatureState getFeatureState(String name);
+
+    public MissingValueException(final Throwable cause)
+    {
+        super(cause);
+    }
+
+    public MissingValueException()
+    {}
+
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features>
+    <feature name="test" state="enabled">
+        <rule state="enabled">
+            <condition context="a" name="prop" operation="eq" value="1" />
+        </rule>
+        <rule state="disabled" />
+    </feature>
+</features>

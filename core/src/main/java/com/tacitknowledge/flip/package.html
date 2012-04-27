@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        The main point to access the Flip framework. When your application is 
+        started you should create <a href="FeatureService.html">FeatureService</a>. 
+        There are two options to do this:
+        <ol>
+            <li>Using <a href="FeatureServiceReflectionFactory.html">FeatureServiceReflectionFactory</a> 
+                which will scan for the classes in the packages passed which are annotated
+                with <a href="context/FlipContext.html">FlipContext</a> annotation
+                or with <a href="properties/FlipProperty.html">FlipProperty</a> annotation.
+                Also it by default adds the <a href="properties/XmlPropertyReader.html">XmlPropertyReader</a>
+                and <a href="context/SystemPropertiesContextProvider.html">SystemPropertiesContextProvider</a>.
+                After that it orders them by priority specified in the annotation and instantiates
+                <a href="context/ContextManager.html">ContextManager</a> and <a href="properties/PropertyManager.html">PropertyManager</a>.
+            </li>
+            <li>
+                Using <a href="FeatureServiceDirectFactory.html">FeatureServiceDirectFactory</a> which
+                should be initialized by a DI or youself. Here you should set the
+                context providers and property readers in the order you like. Also you will have
+                to set properties used to configure the property readers.
+            </li>
+        </ol>
+    </body>
+</html>
