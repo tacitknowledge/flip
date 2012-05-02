@@ -37,13 +37,13 @@ import com.tacitknowledge.flip.context.ContextMap;
 public class FeatureCondition implements FeatureProcessor
 {
 
-    @XmlAttribute
+    @XmlAttribute()
     private String context = ContextMap.GLOBAL;
 
     @XmlAttribute(required = true)
     private String name;
 
-    @XmlAttribute
+    @XmlAttribute()
     private FeatureOperation operation = FeatureOperation.EQUALS;
 
     @XmlAttribute(required = true)

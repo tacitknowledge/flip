@@ -36,7 +36,7 @@ public class FeatureRule implements FeatureProcessor
     @XmlAttribute(required = true)
     private FeatureState state;
 
-    @XmlElements(@XmlElement(name = "condition"))
+    @XmlElements(@XmlElement(name = "condition", namespace=FeatureDescriptors.NAMESPACE))
     private FeatureCondition[] conditions;
 
     /**

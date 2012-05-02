@@ -34,10 +34,10 @@ public class FeatureDescriptor implements FeatureProcessor
     @XmlAttribute(required = true)
     private String name;
 
-    @XmlAttribute
+    @XmlAttribute()
     private FeatureState state;
 
-    @XmlElements(@XmlElement(name = "rule"))
+    @XmlElements(@XmlElement(name = "rule", namespace=FeatureDescriptors.NAMESPACE))
     private FeatureRule[] rules;
 
     /**

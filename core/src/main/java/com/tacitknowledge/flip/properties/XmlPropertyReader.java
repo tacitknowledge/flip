@@ -14,6 +14,7 @@
 */
 package com.tacitknowledge.flip.properties;
 
+import com.tacitknowledge.flip.model.FeatureDescriptors;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -195,26 +196,6 @@ public class XmlPropertyReader extends RefreshablePropertyReader
         {
             Logger.getLogger(XmlPropertyReader.class.getName()).log(Level.WARNING, null, ex);
         }
-    }
-
-    @XmlRootElement(name = "features")
-    @XmlAccessorType(XmlAccessType.FIELD)
-    static class FeatureDescriptors
-    {
-
-        @XmlElements(@XmlElement(name = "feature", type = FeatureDescriptor.class))
-        private FeatureDescriptor[] features;
-
-        public FeatureDescriptor[] getFeatures()
-        {
-            return features;
-        }
-
-        public void setFeatures(final FeatureDescriptor[] features)
-        {
-            this.features = features;
-        }
-
     }
 
 }

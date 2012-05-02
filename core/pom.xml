@@ -25,32 +25,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<!-- unit test run configuration -->
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<childDelegation>true</childDelegation>
-					<includes>
-						<include>${unit.tests.pattern}</include>
-					</includes>
-					<skip>false</skip>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.1</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -121,6 +95,33 @@
 						<version>2.2</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<!-- unit test run configuration -->
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<childDelegation>true</childDelegation>
+					<includes>
+						<include>${unit.tests.pattern}</include>
+					</includes>
+					<skip>false</skip>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
