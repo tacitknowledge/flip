@@ -46,11 +46,22 @@ to your project library folder:
 
 If you build your application using maven you simply add the following dependency:
     <dependency>
+        <groupId>com.tacitknowledge</groupId>
+	<artifactId>flip</artifactId>
+	<version>1.0-SNAPSHOT</version>
+    </dependency>
+
+or each module separately:
+    <dependency>
         <groupId>com.tacitknowledge.flip</groupId>
 	<artifactId>core</artifactId>
 	<version>1.0-SNAPSHOT</version>
     </dependency>
-
+    <dependency>
+        <groupId>com.tacitknowledge.flip</groupId>
+	<artifactId>servlet</artifactId>
+	<version>1.0-SNAPSHOT</version>
+    </dependency>
 
 == 3. Usage ==
 
