@@ -7,6 +7,8 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
+	<name>Flip Core</name>
+
 	<parent>
 		<groupId>com.tacitknowledge</groupId>
 		<artifactId>flip</artifactId>
@@ -14,7 +16,41 @@
 	</parent>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>${project.build.directory}/schemas</directory>
+				<includes>
+					<include>**/*.xsd</include>
+				</includes>
+			</resource>
+		</resources> 
 		<plugins>
+<plugin>
+                <!-- unit test run configuration -->
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <childDelegation>true</childDelegation>
+                    <includes>
+                        <include>${unit.tests.pattern}</include>
+                    </includes>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
