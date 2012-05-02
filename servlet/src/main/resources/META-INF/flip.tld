@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>Flip Tag Library</description>
+	<tlib-version>3.0</tlib-version>
+	<short-name>flip</short-name>
+	<uri>http://www.tacitknowledge.com/flip</uri>
+
+	<tag>
+		<description>
+			Renders the body if the specified feature is enabled.
+		</description>
+		<name>enabled</name>
+		<tag-class>com.tacitknowledge.flip.servlet.jsp.EnabledFlipTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>The name of the feature that determines if the body should be rendered.</description>
+			<name>feature</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>The feature service used to process the feature state.</description>
+			<name>service</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<description>
+			Renders the body if the specified feature is disabled.
+		</description>
+		<name>disabled</name>
+		<tag-class>com.tacitknowledge.flip.servlet.jsp.DisabledFlipTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>The name of the feature that determines if the body should be rendered.</description>
+			<name>feature</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>The feature service used to process the feature state.</description>
+			<name>service</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<description>
+			Displays the list of session level feature overrides applied to the current session.
+		</description>
+		<name>sessionFeatures</name>
+		<tag-class>com.tacitknowledge.flip.servlet.jsp.SessionFeaturesTag</tag-class>
+		<body-content>JSP</body-content>
+	</tag>
+</taglib>

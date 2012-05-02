@@ -52,5 +52,6 @@
 
 	<modules>
 		<module>core</module>
+		<module>servlet</module>
 	</modules>
 </project>

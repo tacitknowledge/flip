@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        Tags used in JSP pages to render the content depending on the state of the feature.
+        To be able to use the Flip JSP tags you should add to your <strong>web.xml</strong> 
+        the following snippet:
+        <pre>
+&lt;taglib&gt;
+  &lt;taglib-uri&gt;<strong>http://www.tacitknowledge.com/flip</strong>&lt;/taglib-uri&gt;
+  &lt;taglib-location&gt;<strong>/WEB-INF/lib/flip-web.jar</strong>&lt;/taglib-location&gt;
+&lt;/taglib&gt;
+        </pre>
+        and in your JSP declare it as:
+        <pre>
+&lt;%@ taglib prefix="flip" uri="http://www.tacitknowledge.com/flip" %&gt;
+        </pre>
+        <br />
+        <h2>Usage</h2>
+        <h3>flip:enabled and flip:disabled</h3>
+        This tag is used to render the content of the tag depending of the feature state.
+        These tags has the following attributes:
+        <dl>
+            <dt>feature</dt> 
+            <dd>declares the name of the feature to evaluate. If the tag is <strong>flip:enabled</strong>
+                then the content will be rendered only if the feature has a state as <strong>ENABLED</strong>.
+                The same rule applied to the tag <strong>flip:disabled</strong>, the feature 
+                should have the sate as <strong>DISABLED</strong>.
+            </dd>
+            
+            <dt>service</dt>
+            <dd>sets the FeatureService used to evaluate the feature.
+                If this attribute is not specified then the tag will try to 
+                obtain the instance of the feature service from request attribute 
+                <code>featureService</code> and then from <a href="../FlipWebContext.html#getFeatureService()">FlipWebContext#getFeatureService()</a>.
+            </dd>
+        </dl>
+        <h3>flip:sessionFeatures</h3>
+        This tag is used to display the current feature descriptors found in the session. In the session
+        are stored the feature descriptors which was obtained from request parameters by 
+        <a href="../FlipFilter.html">FlipFilter</a>.
+        It displays the features in the format:
+        <pre>
+&lt;feature-name&gt; = &lt;feature-state&gt;&lt;br /&gt;
+        </pre>
+    </body>
+</html>
