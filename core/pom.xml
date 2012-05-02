@@ -23,34 +23,35 @@
 					<include>**/*.xsd</include>
 				</includes>
 			</resource>
-		</resources> 
+		</resources>
 		<plugins>
-<plugin>
-                <!-- unit test run configuration -->
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <childDelegation>true</childDelegation>
-                    <includes>
-                        <include>${unit.tests.pattern}</include>
-                    </includes>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
+			<plugin>
+				<!-- unit test run configuration -->
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<childDelegation>true</childDelegation>
+					<includes>
+						<include>${unit.tests.pattern}</include>
+					</includes>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -63,6 +64,63 @@
 				<configuration>
 					<configLocation>tacit_checkstyle.config</configLocation>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.sun.tools.jxc.maven2</groupId>
+				<artifactId>maven-jaxb-schemagen-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<project>${project}</project>
+					<destdir>${project.build.directory}/schemas/META-INF</destdir>
+					<srcdir>${project.build.sourceDirectory}</srcdir>
+					<includes>
+						<include>com/tacitknowledge/flip/model/FeatureDescriptors.java</include>
+						<include>com/tacitknowledge/flip/model/FeatureDescriptor.java</include>
+						<include>com/tacitknowledge/flip/model/FeatureRule.java</include>
+						<include>com/tacitknowledge/flip/model/FeatureCondition.java</include>
+						<include>com/tacitknowledge/flip/model/FeatureOperation.java</include>
+						<include>com/tacitknowledge/flip/model/FeatureState.java</include>
+					</includes>
+					<schemas>
+						<schema>
+							<namespace>http://www.tacitknowledge.com/flip</namespace>
+							<file>flip-1.0.xsd</file>
+						</schema>
+					</schemas>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>javax.xml.bind</groupId>
+						<artifactId>jaxb-api</artifactId>
+						<version>2.2</version>
+					</dependency>
+					<dependency>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-xjc</artifactId>
+						<version>2.2</version>
+					</dependency>
+					<dependency>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-impl</artifactId>
+						<version>2.2</version>
+					</dependency>
+					<dependency>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-xjc</artifactId>
+						<version>2.2</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
