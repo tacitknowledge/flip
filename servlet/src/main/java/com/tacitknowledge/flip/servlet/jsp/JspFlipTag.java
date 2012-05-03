@@ -81,7 +81,7 @@ public class JspFlipTag extends BaseFlipTag
         }
 
         final Object featureServiceObject = pageContext.getRequest().getAttribute(FEATURE_SERVICE_ATTRIBUTE);
-        if (featureServiceObject != null && featureServiceObject instanceof FeatureService)
+        if (featureServiceObject instanceof FeatureService)
         {
             return (FeatureService) featureServiceObject;
         }
