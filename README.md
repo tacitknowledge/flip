@@ -1,16 +1,4 @@
-Flip feature toggling framework
-
-Contents
-
-1. Overview
-2. Install
-    1. Ant
-    2. Maven
-3. Usage
-4. Licensing
-    
-
-== 1. Overview ==
+# Flip feature toggling framework
 
 This framework is intended to resolve the problem when some features of the 
 application should be disabled. Such situations could be as disabling the
@@ -24,9 +12,9 @@ Another function added to the framework is to disable or enable the feature
 depending on some conditions (e.g. when the user is from Canada then show
 and additional message on the page, for others do not show this message).
 
-== 2. Install ==
+# Installation
 
-=== 2.1. Ant ===
+## Ant
 
 If you application is build using Ant you should copy the following libraries
 to your project library folder:
@@ -42,7 +30,7 @@ to your project library folder:
 9. javassist-3.12.1.GA.jar from http://www.javassist.org/
 
 
-=== 2.2. Maven ===
+## Maven
 
 If you build your application using maven you simply add the following dependency:
     <dependency>
@@ -63,7 +51,7 @@ or each module separately:
 	<version>1.0-SNAPSHOT</version>
     </dependency>
 
-== 3. Usage ==
+# Usage
 
 After you added the library to the project tree you have to integrate it. 
 Firstly you should instantiate the com.tacitknowledge.flip.FeatureService
@@ -84,7 +72,7 @@ XmlPropertyReader obtains the feature descriptors from XML file which could
 be placed in your project.
 
 
-== 4. Licensing ==
+# Licensing
 
 This framework is released under Apache 2.0 Public License. The text of the
 license you can find at http://www.apache.org/licenses/LICENSE-2.0.txt.
