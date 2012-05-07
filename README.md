@@ -13,7 +13,7 @@ There are a several ways that this can be used, including:
 
 ## Ant
 
-If you application is build using Ant you should copy the following libraries
+If you application is built using Ant you should copy the following libraries
 to your project library folder:
 
 1. flip-core-1.0-SNAPSHOT.jar (the core library itself)
@@ -56,6 +56,10 @@ or each module separately:
         <version>1.0-SNAPSHOT</version>
     </dependency>
 
+# Documentation
+
+The documentation for Flip is on the [Flip Wiki](https://github.com/tacitknowledge/flip/wiki)
+
 # Usage
 
 After you added the library to the project tree you have to integrate it. 
@@ -68,9 +72,6 @@ withing the system.
 2. `FeatureServiceDirectFactory` - this factory expects that required entities will be provided, leaving
 responsibility of initialization of `context providers` and `property readers` to the underlying DI framework,
 or to the developer. 
-
-
-This factory almost is used to use with DI.
 
 After you started the feature service you have to place the invocations to
 feature service to obtain the feature state in that places of your code 
