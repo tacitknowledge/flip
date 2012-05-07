@@ -36,28 +36,28 @@ If you build your application using maven you simply add the following dependenc
 
     <dependency>
         <groupId>com.tacitknowledge</groupId>
-	<artifactId>flip</artifactId>
-	<version>1.0-SNAPSHOT</version>
+        <artifactId>flip</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
 
 or each module separately:
 
     <dependency>
         <groupId>com.tacitknowledge.flip</groupId>
-	    <artifactId>core</artifactId>
-	    <version>1.0-SNAPSHOT</version>
+        <artifactId>core</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
     
     <dependency>
         <groupId>com.tacitknowledge.flip</groupId>
-	    <artifactId>servlet</artifactId>
-	    <version>1.0-SNAPSHOT</version>
+        <artifactId>servlet</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
     
     <dependency>
         <groupId>com.tacitknowledge.flip</groupId>
         <artifactId>spring</artifactId>
-	    <version>1.0-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
 
 # Usage
