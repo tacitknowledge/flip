@@ -5,3 +5,5 @@
 *.csv
 target
 tmp
+nb-configuration.xml
+
