@@ -1,4 +1,4 @@
-# Flip feature toggling framework
+## Flip feature toggling framework
 
 This framework is intended to resolve the problem when some features of the 
 application should be disabled. Such situations could be as disabling the
@@ -85,3 +85,11 @@ be placed in your project.
 
 This framework is released under Apache 2.0 Public License. The text of the
 license you can find at http://www.apache.org/licenses/LICENSE-2.0.txt.
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
