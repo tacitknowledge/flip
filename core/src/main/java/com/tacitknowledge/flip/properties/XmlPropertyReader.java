@@ -178,10 +178,14 @@ public class XmlPropertyReader extends RefreshablePropertyReader
     {
         try
         {
+            final InputStream in = getConfigurationStream(getConfig());
+            if (in == null) {
+                return;
+            }
             final JAXBContext context = JAXBContext.newInstance(FeatureDescriptors.class);
             final Unmarshaller unmarshaller = context.createUnmarshaller();
             final FeatureDescriptors descriptors = (FeatureDescriptors) unmarshaller
-                    .unmarshal(getConfigurationStream(getConfig()));
+                    .unmarshal(in);
 
             cache.clear();
             if (descriptors != null && descriptors.getFeatures() != null)

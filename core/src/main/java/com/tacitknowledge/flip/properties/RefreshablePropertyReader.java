@@ -58,7 +58,7 @@ public abstract class RefreshablePropertyReader extends CacheablePropertyReader
         }
         catch (final NumberFormatException ex)
         {
-            Logger.getLogger(XmlPropertyReader.class.getName()).log(Level.WARNING, null, ex);
+            Logger.getLogger(XmlPropertyReader.class.getName()).log(Level.WARNING, String.format("The property [%s] in feature service properties is missing or has an invalid format."));
         }
     }
 

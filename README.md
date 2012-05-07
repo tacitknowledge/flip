@@ -18,7 +18,7 @@ map based store locator while it is not fully tested, or for some reasons
 should not appear on production for a while. Or this framework could be used
 for A/B testing. 
 Also this framework allows enabling and disabling features runtime (e.g. the
-administrator goes to a page where it enabled and disables the features and
+administrator goes to a page where it enables and disables the features and
 the changes made applies when it presses the submit button). 
 Another function added to the framework is to disable or enable the feature
 depending on some conditions (e.g. when the user is from Canada then show

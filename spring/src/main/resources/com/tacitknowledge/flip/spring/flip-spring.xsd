@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns="http://www.tacitknowledge.com/flip/spring" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:beans="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           targetNamespace="http://www.tacitknowledge.com/flip/spring"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       >
+
+    <xs:import namespace="http://www.springframework.org/schema/beans" />
+
+    <xs:element name="intercept-handlers">
+        <xs:complexType >
+            <xs:attribute name="default-url" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="feature-service">
+        <xs:complexType >
+            <xs:sequence minOccurs="0" maxOccurs="3">
+                <xs:choice>
+                    <xs:element name="context-providers" type="feature-service-nested-beans" />
+                    <xs:element name="property-readers" type="feature-service-nested-beans" />
+                    <xs:element name="properties" type="feature-service-properties" />
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="environment" type="xs:IDREF" />
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="feature-service-nested-beans">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:choice>
+                <xs:element ref="beans:bean" />
+                <xs:element ref="beans:ref" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="feature-service-properties">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="beans:prop" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
