@@ -73,7 +73,7 @@ public class FlipSpringAspect
     public Object aroundHandlerFeatureCheckerWithinFlipType(final ProceedingJoinPoint pjp)
         throws Throwable
     {
-        final FlipSpringHandler flip = ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(FlipSpringHandler.class);
+        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledUrl() == null ? defaultFlipDisabledUrl : flip.disabledUrl());
     }
 
@@ -89,7 +89,7 @@ public class FlipSpringAspect
     public Object aroundResponseBodyHandlerFeatureCheckerWithinFlipType(final ProceedingJoinPoint pjp)
         throws Throwable
     {
-        final FlipSpringHandler flip = ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(FlipSpringHandler.class);
+        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), null);
     }
 
@@ -104,7 +104,7 @@ public class FlipSpringAspect
      */
     public Object aroundHandlerFeatureChecker(final ProceedingJoinPoint pjp) throws Throwable
     {
-        final FlipSpringHandler flip = ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(FlipSpringHandler.class);
+        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledUrl() == null ? defaultFlipDisabledUrl : flip.disabledUrl());
     }
 
@@ -120,7 +120,7 @@ public class FlipSpringAspect
     public Object aroundResponseBodyHandlerFeatureChecker(final ProceedingJoinPoint pjp)
         throws Throwable
     {
-        final FlipSpringHandler flip = ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(FlipSpringHandler.class);
+        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), null);
     }
 
@@ -135,7 +135,7 @@ public class FlipSpringAspect
      */
     public Object aroundModelAttributeFeatureChecker(final ProceedingJoinPoint pjp) throws Throwable
     {
-        final FlipSpringHandler flip = ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(FlipSpringHandler.class);
+        final FlipSpringHandler flip =  getMethodAnnotation(pjp, FlipSpringHandler.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), null);
     }
 
@@ -182,7 +182,9 @@ public class FlipSpringAspect
         return pjp.proceed(pjpArgs);
     }
     
-    
+    protected <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint pjp, Class<T> annotation) {
+        return ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(annotation);
+    } 
 
     /** A pointcut expression that matches all methods */
     @Pointcut("execution(* *(..))")

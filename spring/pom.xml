@@ -102,6 +102,11 @@
                     <artifactId>spring-webmvc</artifactId>
                     <version>3.0.0.RELEASE</version>
                 </dependency>            
+                <dependency>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                    <version>2.2.2</version>
+                </dependency>            
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
@@ -146,6 +151,12 @@
 			<groupId>xerces</groupId>
 			<artifactId>xmlParserAPIs</artifactId>
 			<version>2.6.2</version>
+                        <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
                         <scope>test</scope>
 		</dependency>
 	</dependencies>
