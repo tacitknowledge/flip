@@ -23,8 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 /**
- *
- * @author ssoloviov
+ * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 @Configuration
 @ImportResource("classpath:com/tacitknowledge/flip/spring/context.xml")

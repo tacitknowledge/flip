@@ -23,9 +23,10 @@ import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import static org.junit.Assert.*;
+
 /**
  *
- * @author ssoloviov
+ * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class InterceptHandlerParserTest {
     

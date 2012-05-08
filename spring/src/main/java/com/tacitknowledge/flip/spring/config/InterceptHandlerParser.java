@@ -24,7 +24,7 @@ import org.w3c.dom.Element;
 
 /**
  *
- * @author ssoloviov
+ * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class InterceptHandlerParser extends AbstractBeanDefinitionParser {
 
