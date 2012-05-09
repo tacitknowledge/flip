@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Flip : Feature Toggle framework for Java" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Flip</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/tacitknowledge/flip">View on GitHub</a>
+
+          <h1 id="project_title">Flip</h1>
+          <h2 id="project_tagline">Feature Toggle framework for Java</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/tacitknowledge/flip/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/tacitknowledge/flip/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>Flip - feature toggling framework</h2>
+
+<p>Flip is embracing the concept of <a href="http://martinfowler.com/bliki/FeatureToggle.html">Feature Toggle</a>,
+and brings it into the Java world.</p>
+
+<p>There are a several ways that this can be used, including:</p>
+
+<ol>
+<li>Reducing the need to branch by feature in git by having all work done on master. Features that are not ready for production can be disabled.</li>
+<li>Features will eventually be enabled or disabled per user group, enabling closed betas.</li>
+<li>Should a feature become problematic, we can turn it off without requiring a build and deploy.</li>
+</ol><h1>Installation</h1>
+
+<h2>Ant</h2>
+
+<p>If you application is built using Ant you should copy the following libraries
+to your project library folder:</p>
+
+<ol>
+<li>flip-core-1.0-SNAPSHOT.jar (the core library itself)</li>
+<li>commons-collections-3.2.1.jar from <a href="http://commons.apache.org/collections/">http://commons.apache.org/collections/</a>
+</li>
+<li>commons-jexl-2.1.1.jar from <a href="http://commons.apache.org/jexl/">http://commons.apache.org/jexl/</a>
+</li>
+<li>commons-lang3-3.1.jar from <a href="http://commons.apache.org/lang/">http://commons.apache.org/lang/</a>
+</li>
+<li>commons-logging-1.1.1.jar from <a href="http://commons.apache.org/logging/">http://commons.apache.org/logging/</a>
+</li>
+<li>reflections-0.9.6.jar from <a href="http://code.google.com/p/reflections/">http://code.google.com/p/reflections/</a>
+</li>
+<li>dom4j-1.6.1.jar from <a href="http://dom4j.sourceforge.net/">http://dom4j.sourceforge.net/</a>
+</li>
+<li>guava-10.0.jar from <a href="http://dom4j.sourceforge.net/">http://dom4j.sourceforge.net/</a>
+</li>
+<li>javassist-3.12.1.GA.jar from <a href="http://www.javassist.org/">http://www.javassist.org/</a>
+</li>
+</ol><h2>Maven</h2>
+
+<p>If you build your application using maven you simply add the following dependency:</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.tacitknowledge&lt;/groupId&gt;
+    &lt;artifactId&gt;flip&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>or each module separately:</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.tacitknowledge.flip&lt;/groupId&gt;
+    &lt;artifactId&gt;core&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;com.tacitknowledge.flip&lt;/groupId&gt;
+    &lt;artifactId&gt;servlet&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;com.tacitknowledge.flip&lt;/groupId&gt;
+    &lt;artifactId&gt;spring&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h1>Documentation</h1>
+
+<p>The documentation for Flip is on the <a href="https://github.com/tacitknowledge/flip/wiki">Flip Wiki</a></p>
+
+<h1>Usage</h1>
+
+<p>After you added the library to the project tree you have to integrate it. 
+Firstly you should instantiate the <code>com.tacitknowledge.flip.FeatureService</code>
+object by using one of two default factories:</p>
+
+<ol>
+<li>
+<code>FeatureServiceReflectionFactory</code> - as the name implies, it leverages capabilities
+of reflection to perform lookup process, identifying context providers and property readers defined
+withing the system.</li>
+<li>
+<code>FeatureServiceDirectFactory</code> - this factory expects that required entities will be provided, leaving
+responsibility of initialization of <code>context providers</code> and <code>property readers</code> to the underlying DI framework,
+or to the developer. </li>
+</ol><p>After you started the feature service you have to place the invocations to
+feature service to obtain the feature state in that places of your code 
+where is needed. These steps are specific for your project and they do not 
+have a default implementations.</p>
+
+<p>The next step is to define the feature states. This could be done by using
+the default property reader <code>XmlPropertyReader</code> or by implementing your own.
+XmlPropertyReader obtains the feature descriptors from XML file which could
+be placed in your project.</p>
+
+<h1>Licensing</h1>
+
+<p>This framework is released under Apache 2.0 Public License. The text of the
+license you can find at <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">http://www.apache.org/licenses/LICENSE-2.0.txt</a>.</p>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Flip maintained by <a href="https://github.com/tacitknowledge">tacitknowledge</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
