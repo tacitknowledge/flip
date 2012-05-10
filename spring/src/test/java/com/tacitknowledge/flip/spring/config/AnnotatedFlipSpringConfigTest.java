@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Import;
 import static org.junit.Assert.*;
 /**
  *
- * @author ssoloviov
+ * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class AnnotatedFlipSpringConfigTest {
     

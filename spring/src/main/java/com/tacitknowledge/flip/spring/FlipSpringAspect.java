@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Tacit Knowledge.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.tacitknowledge.flip.spring;
 
 import java.lang.annotation.Annotation;
@@ -159,13 +174,13 @@ public class FlipSpringAspect
         final Method method = methodSignature.getMethod();
 
         final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-        final Class[] parameterTypes = method.getParameterTypes();
+        final Class<?>[] parameterTypes = method.getParameterTypes();
         final Object[] pjpArgs = pjp.getArgs();
 
         int paramIndex = 0;
         for (final Annotation[] annotations : parameterAnnotations)
         {
-            final Class parameterType = parameterTypes[paramIndex];
+            final Class<?> parameterType = parameterTypes[paramIndex];
 
             for (final Annotation annotation : annotations)
             {
@@ -179,10 +194,6 @@ public class FlipSpringAspect
 
         return pjp.proceed(pjpArgs);
     }
-    
-    protected <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint pjp, Class<T> annotation) {
-        return ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(annotation);
-    } 
 
     /** A pointcut expression that matches all methods */
     @Pointcut("execution(* *(..))")
@@ -230,41 +241,51 @@ public class FlipSpringAspect
     @Pointcut("@within(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyNonResponseBodyControllerHandlerMethod()")
     public void anyHandlerFeatureCheckerWithinFlipType()
     {
+    	//no-op
     }
 
     @Pointcut("@within(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyResponseBodyControllerHandlerMethod()")
     public void anyResponseBodyHandlerFeatureCheckerWithinFlipType()
     {
+    	//no-op
     }
 
     @Pointcut("@annotation(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyNonResponseBodyControllerHandlerMethod()")
     public void anyHandlerFeatureChecker()
     {
+    	//no-op
     }
 
     @Pointcut("@annotation(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyResponseBodyControllerHandlerMethod()")
     public void anyResponseBodyHandlerFeatureChecker()
     {
+    	//no-op
     }
 
     @Pointcut("@annotation(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyModelAttributeMethod()")
     public void anyModelAttributeFeatureChecker()
     {
+    	//no-op
     }
 
     @Pointcut("anyMethod() && @annotation(com.tacitknowledge.flip.spring.FlipParameters)")
     public void anyMethodFeatureCheckerWithFlipParameters()
     {
-    }    
-       
+    	//no-op
+    }
 
+    protected <T extends Annotation> T getMethodAnnotation(final ProceedingJoinPoint pjp, final Class<T> annotation)
+    {
+        return ((MethodSignature) pjp.getSignature()).getMethod().getAnnotation(annotation);
+    }
+    
     private Object processAroundHandlerForFeature(final ProceedingJoinPoint pjp, final String feature,
             final Object disabledResult) throws Throwable
     {
         return getFeatureService().getFeatureState(feature) == FeatureState.ENABLED ? pjp.proceed() : disabledResult;
     }
 
-    private void processFlipParamAnnotation(final Object[] pjpArgs, final int paramIndex, final Class parameterType,
+    private void processFlipParamAnnotation(final Object[] pjpArgs, final int paramIndex, final Class<?> parameterType,
             final FlipParam flip)
     {
         if (getFeatureService().getFeatureState(flip.feature()) == FeatureState.DISABLED)

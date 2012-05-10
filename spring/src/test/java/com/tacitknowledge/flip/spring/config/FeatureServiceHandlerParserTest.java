@@ -15,15 +15,15 @@
  */
 package com.tacitknowledge.flip.spring.config;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.tacitknowledge.flip.FeatureService;
-import com.tacitknowledge.flip.FeatureServiceDirectFactory;
-import com.tacitknowledge.flip.FeatureServiceImpl;
-import com.tacitknowledge.flip.context.SystemPropertiesContextProvider;
-import com.tacitknowledge.flip.properties.XmlPropertyReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.PropertyValue;
@@ -34,11 +34,13 @@ import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
-import static org.junit.Assert.*;
+import com.tacitknowledge.flip.FeatureService;
+import com.tacitknowledge.flip.FeatureServiceDirectFactory;
+import com.tacitknowledge.flip.context.SystemPropertiesContextProvider;
+import com.tacitknowledge.flip.properties.XmlPropertyReader;
 
 /**
- *
- * @author ssoloviov
+ * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class FeatureServiceHandlerParserTest {
     

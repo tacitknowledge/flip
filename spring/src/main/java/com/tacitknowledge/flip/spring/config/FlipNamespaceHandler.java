@@ -19,7 +19,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
  *
- * @author ssoloviov
+ * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class FlipNamespaceHandler extends NamespaceHandlerSupport {
 
