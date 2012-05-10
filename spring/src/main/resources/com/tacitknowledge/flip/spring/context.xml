@@ -35,5 +35,4 @@
            </aop:aspect>
        </aop:config>
        
-       <bean id="flipHandlerAspect" class="com.tacitknowledge.flip.spring.FlipSpringAspect" />
 </beans>

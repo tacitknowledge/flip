@@ -15,9 +15,12 @@
  */
 package com.tacitknowledge.flip.spring.config;
 
+import java.util.Map;
 import com.tacitknowledge.flip.spring.FlipSpringAspect;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -40,7 +43,17 @@ public class InterceptHandlerParserTest {
     public void testCreateFlipHandlerAspect() {
         assertTrue(context.containsBeanDefinition("flipHandlerAspect"));
         BeanDefinition flipHandlerAspectBeanDefinition = context.getBeanDefinition("flipHandlerAspect");
+        MutablePropertyValues properties = flipHandlerAspectBeanDefinition.getPropertyValues();
+        for(PropertyValue prop : properties.getPropertyValueList()) {
+            System.out.println(prop.getName() + " = " + prop.getValue().toString());
+        }
         assertEquals(FlipSpringAspect.class.getName(), flipHandlerAspectBeanDefinition.getBeanClassName());
+        
+        FlipSpringAspect aspect = context.getBean("flipHandlerAspect", FlipSpringAspect.class);
+        assertNotNull(aspect.getFeatureService());
+        assertNotNull(aspect.getDefaultFlipDisabledUrl());
+        assertEquals("test", aspect.getDefaultFlipDisabledUrl());
+        
     }
     
 }

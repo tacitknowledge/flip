@@ -17,6 +17,7 @@ package com.tacitknowledge.flip.spring.config;
 
 import com.tacitknowledge.flip.FeatureService;
 import com.tacitknowledge.flip.FeatureServiceDirectFactory;
+import com.tacitknowledge.flip.spring.FlipSpringAspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,19 @@ public class AnnotatedFlipSpringConfig {
     
     @Autowired
     private FeatureServiceDirectFactory factory;
+
+    public static FlipSpringAspect createFlipSpringAspect(FeatureService featureService, String defaultUrl) {
+        FlipSpringAspect aspect = new FlipSpringAspect();
+        aspect.setFeatureService(featureService);
+        aspect.setDefaultFlipDisabledUrl(defaultUrl);
+        return aspect;
+    }
+
+    public static FlipSpringAspect createFlipSpringAspect(String defaultUrl) {
+        FlipSpringAspect aspect = new FlipSpringAspect();
+        aspect.setDefaultFlipDisabledUrl(defaultUrl);
+        return aspect;
+    }
     
     @Bean(name="featureService")
     public FeatureService featureService() {

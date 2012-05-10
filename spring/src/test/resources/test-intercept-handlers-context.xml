@@ -14,7 +14,9 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
        http://www.tacitknowledge.com/flip/spring http://www.tacitknowledge.com/flip/spring/flip-spring.xsd"
        >
+           
+       <flip:feature-service />
 
-       <flip:intercept-handlers />
+       <flip:intercept-handlers default-url="test" />
 
 </beans>

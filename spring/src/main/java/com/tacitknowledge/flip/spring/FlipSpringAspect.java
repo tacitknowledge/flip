@@ -37,12 +37,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SuppressWarnings("unused")
 public class FlipSpringAspect
 {
-    private static final String FLIP_ARGNAME = "flip";
-    
-    @Autowired
+
+    @Autowired(required=true)
     private FeatureService featureService;
     
-    //@Value("#{systemProperties.flip.web.defaultDisabledUrl}")
     private String defaultFlipDisabledUrl;
 
     public FeatureService getFeatureService() {

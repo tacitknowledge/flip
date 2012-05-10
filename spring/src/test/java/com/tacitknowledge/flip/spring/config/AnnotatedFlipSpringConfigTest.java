@@ -20,6 +20,7 @@ import com.tacitknowledge.flip.FeatureServiceDirectFactory;
 import com.tacitknowledge.flip.spring.FlipSpringAspect;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -43,8 +44,11 @@ public class AnnotatedFlipSpringConfigTest {
     @Test
     public void testCreateFlipHandlerAspect() {
         assertTrue(context.containsBeanDefinition("flipHandlerAspect"));
-        BeanDefinition flipHandlerAspectBeanDefinition = context.getBeanDefinition("flipHandlerAspect");
-        assertEquals(FlipSpringAspect.class.getName(), flipHandlerAspectBeanDefinition.getBeanClassName());
+        
+        FlipSpringAspect aspect = context.getBean("flipHandlerAspect", FlipSpringAspect.class);
+        assertNotNull(aspect.getFeatureService());
+        assertNotNull(aspect.getDefaultFlipDisabledUrl());
+        assertEquals("test", aspect.getDefaultFlipDisabledUrl());
     }
 
     @Test
@@ -56,6 +60,14 @@ public class AnnotatedFlipSpringConfigTest {
     @Configuration
     @Import(AnnotatedFlipSpringConfig.class)
     public static class TestCofig {
+
+        @Autowired
+        public FeatureService featureService;
+        
+        @Bean(name="flipHandlerAspect")
+        public FlipSpringAspect flipHandlerAspect() {
+            return AnnotatedFlipSpringConfig.createFlipSpringAspect(featureService, "test");
+        }
         
         @Bean
         public FeatureServiceDirectFactory getFeatureServiceFactory() {

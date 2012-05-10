@@ -15,7 +15,8 @@
        http://www.tacitknowledge.com/flip/spring http://www.tacitknowledge.com/flip/spring/flip-spring.xsd"
        >
 
-       <flip:feature-service>
-       </flip:feature-service>
+       <flip:feature-service />
+       
+       <flip:intercept-handlers />
 
 </beans>

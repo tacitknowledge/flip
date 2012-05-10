@@ -15,7 +15,12 @@
  */
 package com.tacitknowledge.flip.spring.config;
 
+import com.tacitknowledge.flip.spring.FlipSpringAspect;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.config.RuntimeBeanNameReference;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -31,9 +36,19 @@ public class InterceptHandlerParser extends AbstractBeanDefinitionParser {
     @Override
     protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
         XmlBeanFactory factory = new XmlBeanFactory(new ClassPathResource("com/tacitknowledge/flip/spring/context.xml"));
+        
+        BeanDefinitionBuilder beanBuilder = BeanDefinitionBuilder.rootBeanDefinition(FlipSpringAspect.class);
+        String defaultUrlValue = element.getAttribute("default-url");
+        MutablePropertyValues propertyValues = new MutablePropertyValues();
+        propertyValues.addPropertyValue("defaultFlipDisabledUrl", defaultUrlValue);
+        propertyValues.addPropertyValue("featureService", new RuntimeBeanReference("featureService"));
+        beanBuilder.getRawBeanDefinition().setPropertyValues(propertyValues);
+        
         for(String name : factory.getBeanDefinitionNames()) {
             parserContext.getRegistry().registerBeanDefinition(name, factory.getBeanDefinition(name));
         }
+        parserContext.getRegistry().registerBeanDefinition("flipHandlerAspect", beanBuilder.getBeanDefinition());
+        
         return null;
     }
     
