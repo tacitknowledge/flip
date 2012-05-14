@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import com.tacitknowledge.flip.model.FeatureDescriptor;
@@ -51,11 +52,11 @@ public class SessionFeaturesTag extends TagSupport
     @Override
     public int doStartTag() throws JspException
     {
-        PrintWriter writer = null;
+        JspWriter writer = null;
         try
         {
             final FeatureDescriptorsMap featureDescriptorsMap = FlipWebContext.getFeatureDescriptors();
-            writer = pageContext.getResponse().getWriter();
+            writer = pageContext.getOut();
             for (final FeatureDescriptor featureDescriptor : featureDescriptorsMap.values())
             {
                 writer.write(featureDescriptor.getName());
@@ -70,7 +71,6 @@ public class SessionFeaturesTag extends TagSupport
         }
         finally
         {
-            writer.close();
         }
 
         return SKIP_BODY;

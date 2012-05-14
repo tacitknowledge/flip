@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD 1.5.0//EN" "http://www.eclipse.org/aspectj/dtd/aspectj_1_5_0.dtd">
+<aspectj>
+	<weaver>
+		<include within="com.tacitknowledge.testweb.*"/>
+	</weaver>
+	<aspects>
+		<aspect name="com.tacitknowledge.flip.aspectj.FlipAspectJAspect"/>
+<!--		<aspect name="com.tacitknowledge.testweb.TestAspect"/>-->
+	</aspects>
+</aspectj>

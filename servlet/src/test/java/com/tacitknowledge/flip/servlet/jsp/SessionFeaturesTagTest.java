@@ -24,6 +24,7 @@ import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.junit.Before;
@@ -56,8 +57,139 @@ public class SessionFeaturesTagTest {
         when(pageContext.getResponse()).thenReturn(response);
         
         writer = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(writer);
-        when(response.getWriter()).thenReturn(printWriter);
+        JspWriter printWriter = new JspWriter(1024, true) {
+
+            @Override
+            public void newLine() throws IOException {
+                writer.write("\n");
+            }
+
+            @Override
+            public void print(boolean b) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(char c) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(int i) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(long l) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(float f) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(double d) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(char[] s) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void print(String s) throws IOException {
+                writer.write(s);
+            }
+
+            @Override
+            public void print(Object obj) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println() throws IOException {
+                newLine();
+            }
+
+            @Override
+            public void println(boolean x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(char x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(int x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(long x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(float x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(double x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(char[] x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void println(String x) throws IOException {
+                writer.write(x+"\n");
+            }
+
+            @Override
+            public void println(Object x) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void clear() throws IOException {
+                
+            }
+
+            @Override
+            public void clearBuffer() throws IOException {
+                
+            }
+
+            @Override
+            public void flush() throws IOException {
+                writer.flush();
+            }
+
+            @Override
+            public void close() throws IOException {
+                writer.close();
+            }
+
+            @Override
+            public int getRemaining() {
+                return 0;
+            }
+
+            @Override
+            public void write(char[] cbuf, int off, int len) throws IOException {
+                writer.write(cbuf, off, len);
+            }
+        };
+        when(pageContext.getOut()).thenReturn(printWriter);
         
         featureDescriptors = new FeatureDescriptorsMap();
         FlipWebContext.setFeatureDescriptors(featureDescriptors);
