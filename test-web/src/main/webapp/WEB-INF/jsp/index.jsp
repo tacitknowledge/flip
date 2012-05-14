@@ -39,8 +39,14 @@
         </p>
         <hr />
         <strong>Here you will see the current overriden state of the features:</strong>
-        <pre>
+        <pre style="border:1px solid silver;">
             <flip:sessionFeatures />
         </pre>
+        <br /><br /><br /><br /><br />
+        <hr />
+        <p style="font-size: 8pt;">
+            To run this sample application you should add to web server JVM the following argument:
+            <pre>-javaagent:path/to/aspectjweaver.jar</pre>
+        </p>
     </body>
 </html>
