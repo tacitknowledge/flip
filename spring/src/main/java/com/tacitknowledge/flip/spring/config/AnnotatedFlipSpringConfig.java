@@ -36,13 +36,13 @@ public class AnnotatedFlipSpringConfig {
     public static FlipSpringAspect createFlipSpringAspect(FeatureService featureService, String defaultUrl) {
         FlipSpringAspect aspect = new FlipSpringAspect();
         aspect.setFeatureService(featureService);
-        aspect.setDefaultFlipDisabledUrl(defaultUrl);
+        aspect.setDisabledUrl(defaultUrl);
         return aspect;
     }
 
     public static FlipSpringAspect createFlipSpringAspect(String defaultUrl) {
         FlipSpringAspect aspect = new FlipSpringAspect();
-        aspect.setDefaultFlipDisabledUrl(defaultUrl);
+        aspect.setDisabledUrl(defaultUrl);
         return aspect;
     }
     

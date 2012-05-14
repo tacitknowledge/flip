@@ -28,9 +28,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.tacitknowledge.flip.FeatureService;
+import com.tacitknowledge.flip.FlipContext;
 import com.tacitknowledge.flip.model.FeatureState;
 import com.tacitknowledge.flip.servlet.FlipWebContext;
-import com.tacitknowledge.flip.servlet.jsp.JspFlipTag;
 
 /**
  *
@@ -56,7 +56,7 @@ public class JspFlipTagTest
         request = mock(HttpServletRequest.class);
         when(pageContext.getRequest()).thenReturn(request);
 
-        FlipWebContext.setFeatureService(null);
+        FlipContext.setFeatureService(null);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class JspFlipTagTest
     @Test
     public void testGetFeatureServiceByWebContext()
     {
-        FlipWebContext.setFeatureService(featureService);
+        FlipContext.setFeatureService(featureService);
 
         assertEquals(featureService, tag.getFeatureService());
     }
@@ -115,7 +115,7 @@ public class JspFlipTagTest
         when(request.getAttribute(eq(JspFlipTag.FEATURE_SERVICE_ATTRIBUTE))).thenReturn(featureService);
 
         final FeatureService paramService = mock(FeatureService.class);
-        FlipWebContext.setFeatureService(paramService);
+        FlipContext.setFeatureService(paramService);
 
         assertEquals(featureService, tag.getFeatureService());
     }

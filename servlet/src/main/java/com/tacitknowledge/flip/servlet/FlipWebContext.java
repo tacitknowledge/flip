@@ -31,8 +31,6 @@ public class FlipWebContext
 
     private static ThreadLocal<FeatureDescriptorsMap> featureDescriptors = new ThreadLocal<FeatureDescriptorsMap>();
 
-    private static volatile FeatureService featureService;
-
     /**
      * Returns the feature descriptors set here by the {@link FlipFilter}.
      * 
@@ -53,30 +51,6 @@ public class FlipWebContext
     public static void setFeatureDescriptors(final FeatureDescriptorsMap featureDescriptors)
     {
         FlipWebContext.featureDescriptors.set(featureDescriptors);
-    }
-
-    /**
-     * Returns the {@link FeatureService}. This method by default is used by {@link JspFlipTag} to
-     * obtain the default feature service. The value of this property should be set by developer 
-     * on application start-up time.
-     * 
-     * @return {@link FeatureService} set by developer.
-     */
-    public static FeatureService getFeatureService()
-    {
-        return featureService;
-    }
-
-    /**
-     * Sets the {@link FeatureService} to be used lately in the application. On
-     * application start-up time the developer should set this value to be used lately
-     * by application.
-     * 
-     * @param featureServiceObj the {@link FeatureService} object.
-     */
-    public static synchronized void setFeatureService(final FeatureService featureServiceObj)
-    {
-        featureService = featureServiceObj;
     }
 
     /**

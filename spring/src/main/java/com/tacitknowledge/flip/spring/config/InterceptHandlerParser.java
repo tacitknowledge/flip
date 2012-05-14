@@ -40,7 +40,7 @@ public class InterceptHandlerParser extends AbstractBeanDefinitionParser {
         BeanDefinitionBuilder beanBuilder = BeanDefinitionBuilder.rootBeanDefinition(FlipSpringAspect.class);
         String defaultUrlValue = element.getAttribute("default-url");
         MutablePropertyValues propertyValues = new MutablePropertyValues();
-        propertyValues.addPropertyValue("defaultFlipDisabledUrl", defaultUrlValue);
+        propertyValues.addPropertyValue("disabledUrl", defaultUrlValue);
         propertyValues.addPropertyValue("featureService", new RuntimeBeanReference("featureService"));
         beanBuilder.getRawBeanDefinition().setPropertyValues(propertyValues);
         

@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface FlipParam
+public @interface FlipSpElParam
 {
     /** The name of the feature */
     String feature();
@@ -39,7 +39,4 @@ public @interface FlipParam
     /** The value parameter to be overridden with if the feature is disabled */
     String disabledValue() default StringUtils.EMPTY;
 
-    /** Setting this to <code>true</code> indicates that <code>disabledValue</code>
-     *  should be handled as a SpEL expression.*/
-    boolean asSpEL() default false;
 }

@@ -14,6 +14,7 @@
 */
 package com.tacitknowledge.flip.servlet.jsp;
 
+import com.tacitknowledge.flip.FlipContext;
 import com.tacitknowledge.flip.FeatureService;
 import com.tacitknowledge.flip.model.FeatureState;
 import com.tacitknowledge.flip.servlet.FlipWebContext;
@@ -75,17 +76,17 @@ public class JspFlipTag extends BaseFlipTag
     @Override
     protected FeatureService getFeatureService()
     {
-        if (service != null)
-        {
-            return service;
-        }
-
-        final Object featureServiceObject = pageContext.getRequest().getAttribute(FEATURE_SERVICE_ATTRIBUTE);
-        if (featureServiceObject instanceof FeatureService)
-        {
+        return FlipContext.chooseFeatureService(
+                service, 
+                getFeatureServiceFromRequest());
+    }
+    
+    private FeatureService getFeatureServiceFromRequest() {
+        Object featureServiceObject = pageContext.getRequest().getAttribute(FEATURE_SERVICE_ATTRIBUTE);
+        if (featureServiceObject instanceof FeatureService) {
             return (FeatureService) featureServiceObject;
+        } else {
+            return null;
         }
-
-        return FlipWebContext.getFeatureService();
     }
 }

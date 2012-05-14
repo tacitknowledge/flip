@@ -15,21 +15,20 @@
  */
 package com.tacitknowledge.flip.spring;
 
+import com.tacitknowledge.flip.aspectj.FlipParam;
+import com.tacitknowledge.flip.aspectj.Flippable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import com.tacitknowledge.flip.FeatureService;
+import com.tacitknowledge.flip.FlipContext;
+import com.tacitknowledge.flip.aspectj.FlipAbstractAspect;
 import com.tacitknowledge.flip.model.FeatureState;
-import com.tacitknowledge.flip.spring.FlipParam;
-import com.tacitknowledge.flip.spring.FlipParameters;
-import com.tacitknowledge.flip.spring.FlipSpringHandler;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -50,28 +49,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Aspect
 @Order(2)
 @SuppressWarnings("unused")
-public class FlipSpringAspect
+public class FlipSpringAspect extends FlipAbstractAspect
 {
-
     @Autowired(required=true)
     private FeatureService featureService;
     
-    private String defaultFlipDisabledUrl;
-
-    public FeatureService getFeatureService() {
-        return featureService;
-    }
-
+    private String disabledUrl;
+    
     public void setFeatureService(FeatureService featureService) {
         this.featureService = featureService;
     }
-
-    public String getDefaultFlipDisabledUrl() {
-        return defaultFlipDisabledUrl;
+    
+    public FeatureService getFeatureService() {
+        return FlipContext.chooseFeatureService(featureService);
     }
 
-    public void setDefaultFlipDisabledUrl(String defaultFlipDisabledUrl) {
-        this.defaultFlipDisabledUrl = defaultFlipDisabledUrl;
+    public String getDisabledUrl() {
+        return disabledUrl;
+    }
+
+    public void setDisabledUrl(String disabledUrl) {
+        this.disabledUrl = disabledUrl;
     }
 
     /**
@@ -86,8 +84,8 @@ public class FlipSpringAspect
     public Object aroundHandlerFeatureCheckerWithinFlipType(final ProceedingJoinPoint pjp)
         throws Throwable
     {
-        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledUrl() == null ? defaultFlipDisabledUrl : flip.disabledUrl());
+        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
+        return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledValue() == null ? disabledUrl : flip.disabledValue());
     }
 
     /**
@@ -102,7 +100,7 @@ public class FlipSpringAspect
     public Object aroundResponseBodyHandlerFeatureCheckerWithinFlipType(final ProceedingJoinPoint pjp)
         throws Throwable
     {
-        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
+        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), null);
     }
 
@@ -117,8 +115,8 @@ public class FlipSpringAspect
      */
     public Object aroundHandlerFeatureChecker(final ProceedingJoinPoint pjp) throws Throwable
     {
-        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledUrl() == null ? defaultFlipDisabledUrl : flip.disabledUrl());
+        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
+        return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledValue() == null ? disabledUrl : flip.disabledValue());
     }
 
     /**
@@ -133,7 +131,7 @@ public class FlipSpringAspect
     public Object aroundResponseBodyHandlerFeatureChecker(final ProceedingJoinPoint pjp)
         throws Throwable
     {
-        final FlipSpringHandler flip = getMethodAnnotation(pjp, FlipSpringHandler.class);
+        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), null);
     }
 
@@ -148,7 +146,7 @@ public class FlipSpringAspect
      */
     public Object aroundModelAttributeFeatureChecker(final ProceedingJoinPoint pjp) throws Throwable
     {
-        final FlipSpringHandler flip =  getMethodAnnotation(pjp, FlipSpringHandler.class);
+        final Flippable flip =  getMethodAnnotation(pjp, Flippable.class);
         return processAroundHandlerForFeature(pjp, flip.feature(), null);
     }
 
@@ -188,18 +186,14 @@ public class FlipSpringAspect
                 {
                     processFlipParamAnnotation(pjpArgs, paramIndex, parameterType, (FlipParam) annotation);
                 }
+                if (annotation instanceof FlipSpElParam) {
+                    processFlipSpElParamAnnotation(pjpArgs, paramIndex, parameterType, (FlipSpElParam) annotation);
+                }
             }
             paramIndex++;
         }
 
         return pjp.proceed(pjpArgs);
-    }
-
-    /** A pointcut expression that matches all methods */
-    @Pointcut("execution(* *(..))")
-    protected void anyMethod()
-    {
-        //no-op
     }
 
     /** A pointcut expression that matches all public methods */
@@ -238,37 +232,37 @@ public class FlipSpringAspect
         //no-op
     }
 
-    @Pointcut("@within(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyNonResponseBodyControllerHandlerMethod()")
+    @Pointcut("@within(com.tacitknowledge.flip.aspectj.Flippable) && anyNonResponseBodyControllerHandlerMethod()")
     public void anyHandlerFeatureCheckerWithinFlipType()
     {
     	//no-op
     }
 
-    @Pointcut("@within(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyResponseBodyControllerHandlerMethod()")
+    @Pointcut("@within(com.tacitknowledge.flip.aspectj.Flippable) && anyResponseBodyControllerHandlerMethod()")
     public void anyResponseBodyHandlerFeatureCheckerWithinFlipType()
     {
     	//no-op
     }
 
-    @Pointcut("@annotation(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyNonResponseBodyControllerHandlerMethod()")
+    @Pointcut("@annotation(com.tacitknowledge.flip.aspectj.Flippable) && anyNonResponseBodyControllerHandlerMethod()")
     public void anyHandlerFeatureChecker()
     {
     	//no-op
     }
 
-    @Pointcut("@annotation(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyResponseBodyControllerHandlerMethod()")
+    @Pointcut("@annotation(com.tacitknowledge.flip.aspectj.Flippable) && anyResponseBodyControllerHandlerMethod()")
     public void anyResponseBodyHandlerFeatureChecker()
     {
     	//no-op
     }
 
-    @Pointcut("@annotation(com.tacitknowledge.flip.spring.FlipSpringHandler) && anyModelAttributeMethod()")
+    @Pointcut("@annotation(com.tacitknowledge.flip.aspectj.Flippable) && anyModelAttributeMethod()")
     public void anyModelAttributeFeatureChecker()
     {
     	//no-op
     }
 
-    @Pointcut("anyMethod() && @annotation(com.tacitknowledge.flip.spring.FlipParameters)")
+    @Pointcut("anyMethod() && @annotation(com.tacitknowledge.flip.aspectj.Flippable)")
     public void anyMethodFeatureCheckerWithFlipParameters()
     {
     	//no-op
@@ -290,13 +284,17 @@ public class FlipSpringAspect
     {
         if (getFeatureService().getFeatureState(flip.feature()) == FeatureState.DISABLED)
         {
-            Object newValue = flip.disabledValue();
-            if (flip.asSpEL())
-            {
-                final ExpressionParser parser = new SpelExpressionParser();
-                newValue = parser.parseExpression(flip.disabledValue()).getValue(parameterType);
-            }
-            pjpArgs[paramIndex] = newValue;
+            pjpArgs[paramIndex] = flip.disabledValue();
+        }
+    }
+
+    private void processFlipSpElParamAnnotation(final Object[] pjpArgs, final int paramIndex, final Class<?> parameterType,
+            final FlipSpElParam flip)
+    {
+        if (getFeatureService().getFeatureState(flip.feature()) == FeatureState.DISABLED)
+        {
+            final ExpressionParser parser = new SpelExpressionParser();
+            pjpArgs[paramIndex] = parser.parseExpression(flip.disabledValue()).getValue(parameterType);
         }
     }
 }

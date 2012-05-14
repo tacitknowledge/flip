@@ -52,8 +52,8 @@ public class InterceptHandlerParserTest {
         
         FlipSpringAspect aspect = context.getBean("flipHandlerAspect", FlipSpringAspect.class);
         assertNotNull(aspect.getFeatureService());
-        assertNotNull(aspect.getDefaultFlipDisabledUrl());
-        assertEquals("test", aspect.getDefaultFlipDisabledUrl());
+        assertNotNull(aspect.getDisabledUrl());
+        assertEquals("test", aspect.getDisabledUrl());
         
     }
     

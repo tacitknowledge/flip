@@ -13,24 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.tacitknowledge.flip.spring;
+package com.tacitknowledge.flip.aspectj;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
- * Marker annotation to be used on a method indicating that its parameters
- * are subject to {@link FlipParam} override
+ * Annotation to be used on a method's property for making it feature toggle aware.
  * 
  * @author Petric Coroli (pcoroli@tacitknowledge.com)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface FlipParameters
+@Target(ElementType.PARAMETER)
+public @interface FlipParam
 {
-    // no op
+    /** The name of the feature */
+    String feature();
+
+    /** The value parameter to be overridden with if the feature is disabled */
+    String disabledValue() default StringUtils.EMPTY;
+
 }

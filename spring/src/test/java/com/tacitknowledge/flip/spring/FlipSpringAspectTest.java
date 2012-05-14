@@ -15,6 +15,7 @@
  */
 package com.tacitknowledge.flip.spring;
 
+import com.tacitknowledge.flip.aspectj.Flippable;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -59,7 +60,7 @@ public class FlipSpringAspectTest
     private FeatureService featureService;
 
     @Mock
-    private FlipSpringHandler flip;
+    private Flippable flip;
 
     @Mock
     private ProceedingJoinPoint pjp;
@@ -76,9 +77,9 @@ public class FlipSpringAspectTest
     public void setUp() throws Throwable
     {
         when(flip.feature()).thenReturn(FEATURE);
-        when(flip.disabledUrl()).thenReturn(URL);
+        when(flip.disabledValue()).thenReturn(URL);
         when(pjp.proceed()).thenReturn(expectedReturnedValue);
-        doReturn(flip).when(aspect).getMethodAnnotation(eq(pjp), eq(FlipSpringHandler.class));
+        doReturn(flip).when(aspect).getMethodAnnotation(eq(pjp), eq(Flippable.class));
     }
 
     @Test
