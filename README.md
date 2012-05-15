@@ -12,12 +12,23 @@ There are a several ways that this can be used, including:
 
 # Installation
 
+## Maven
+
+Simply add whichever module you want (core, servlet, or spring) to your POM and let
+Maven do the rest. For example, to use Flip with your Spring application:
+
+    <dependency>
+        <groupId>com.tacitknowledge.flip</groupId>
+        <artifactId>spring</artifactId>
+        <version>1.0</version>
+    </dependency>
+
 ## Ant
 
 If you application is built using Ant you should copy the following libraries
 to your project library folder:
 
-1. flip-core-1.0-SNAPSHOT.jar (the core library itself)
+1. flip-core-1.0.jar (the core library itself)
 2. commons-collections-3.2.1.jar from http://commons.apache.org/collections/
 3. commons-jexl-2.1.1.jar from http://commons.apache.org/jexl/
 4. commons-lang3-3.1.jar from http://commons.apache.org/lang/
@@ -26,36 +37,6 @@ to your project library folder:
 7. dom4j-1.6.1.jar from http://dom4j.sourceforge.net/
 8. guava-10.0.jar from http://dom4j.sourceforge.net/
 9. javassist-3.12.1.GA.jar from http://www.javassist.org/
-
-## Maven
-
-If you build your application using maven you simply add the following dependency:
-
-    <dependency>
-        <groupId>com.tacitknowledge</groupId>
-        <artifactId>flip</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-or each module separately:
-
-    <dependency>
-        <groupId>com.tacitknowledge.flip</groupId>
-        <artifactId>core</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>com.tacitknowledge.flip</groupId>
-        <artifactId>servlet</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>com.tacitknowledge.flip</groupId>
-        <artifactId>spring</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
 
 # Documentation
 
