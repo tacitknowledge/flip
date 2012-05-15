@@ -7,8 +7,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <parent>
-        <groupId>com.tacitknowledge</groupId>
-        <artifactId>flip</artifactId>
+        <groupId>com.tacitknowledge.flip</groupId>
+        <artifactId>parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
