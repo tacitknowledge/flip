@@ -17,10 +17,12 @@ package com.tacitknowledge.flip.aspectj;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.apache.commons.lang3.StringUtils;
+
 
 
 /**
@@ -31,12 +33,12 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.METHOD})
 public @interface Flippable
 {
     /** The name of the feature */
-    String feature();
+    String feature() default StringUtils.EMPTY;
 
     /** The path to redirect to if the feature is disabled */
-    String disabledValue();
+    String disabledValue() default StringUtils.EMPTY;
 }

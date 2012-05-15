@@ -15,27 +15,24 @@
  */
 package com.tacitknowledge.flip.aspectj;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
+import org.apache.commons.jexl2.Expression;
+import org.apache.commons.jexl2.JexlContext;
+import org.apache.commons.jexl2.JexlEngine;
+import org.apache.commons.jexl2.ObjectContext;
 
 /**
- * Annotation to be used on a method's property for making it feature toggle aware.
- * 
- * @author Petric Coroli (pcoroli@tacitknowledge.com)
+ *
+ * @author ssoloviov
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface FlipParam
-{
-    /** The name of the feature */
-    String feature();
+public class JexlValueExpressionEvaluator implements ValueExpressionEvaluator {
 
-    /** The value parameter to be overridden with if the feature is disabled */
-    String disabledValue();
-
+    private JexlEngine engine = new JexlEngine();
+    
+    public Object evaluate(Object context, String expression) {
+        Expression jexlExpression = engine.createExpression(expression);
+        JexlContext jexlContext = new ObjectContext(engine, context);
+        
+        return jexlExpression.evaluate(jexlContext);
+    }
+    
 }

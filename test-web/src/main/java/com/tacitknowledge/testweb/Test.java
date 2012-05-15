@@ -14,12 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tacitknowledge.flip.FeatureService;
-import com.tacitknowledge.flip.FeatureServiceReflectionFactory;
-import com.tacitknowledge.flip.FlipContext;
 import com.tacitknowledge.flip.aspectj.Flippable;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  *
@@ -60,7 +55,7 @@ public class Test extends HttpServlet {
             out.println("<title>Servlet Test</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Test at " + request.getContextPath() + " = " + getSamplleText() + "(" + aClass.getTestCode() + ")</h1>");
+            out.println("<h1>Servlet Test at " + request.getContextPath() + " = " + getSamplleText() + "(" + aClass.getTestCode() + ") from "+ aClass.getSourceCode("Human's") +"</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {            

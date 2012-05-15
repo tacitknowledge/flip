@@ -15,27 +15,12 @@
  */
 package com.tacitknowledge.flip.aspectj;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-
 /**
- * Annotation to be used on a method's property for making it feature toggle aware.
- * 
- * @author Petric Coroli (pcoroli@tacitknowledge.com)
+ *
+ * @author ssoloviov
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface FlipParam
-{
-    /** The name of the feature */
-    String feature();
-
-    /** The value parameter to be overridden with if the feature is disabled */
-    String disabledValue();
-
+public interface ValueExpressionEvaluator {
+    
+    public Object evaluate(Object context, String expression);
+    
 }

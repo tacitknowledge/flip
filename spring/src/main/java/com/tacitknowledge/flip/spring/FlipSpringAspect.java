@@ -19,10 +19,14 @@ import com.tacitknowledge.flip.aspectj.FlipParam;
 import com.tacitknowledge.flip.aspectj.Flippable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.tacitknowledge.flip.FeatureService;
 import com.tacitknowledge.flip.FlipContext;
 import com.tacitknowledge.flip.aspectj.FlipAbstractAspect;
+import com.tacitknowledge.flip.aspectj.ValueExpressionEvaluator;
+import com.tacitknowledge.flip.aspectj.converters.Converter;
 import com.tacitknowledge.flip.model.FeatureState;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -54,14 +58,52 @@ public class FlipSpringAspect extends FlipAbstractAspect
     @Autowired(required=true)
     private FeatureService featureService;
     
+    private Map<Class, Converter> converters = new HashMap<Class, Converter>();
+    private ValueExpressionEvaluator valueExpressionEvaluator;
+    
     private String disabledUrl;
+
+    public FlipSpringAspect() {
+        valueExpressionEvaluator = new SpElValueExpressionEvaluator();
+    }
     
     public void setFeatureService(FeatureService featureService) {
         this.featureService = featureService;
     }
     
+    @Override
     public FeatureService getFeatureService() {
         return FlipContext.chooseFeatureService(featureService);
+    }
+
+    @Override
+    public Converter getConverter(Class klass) {
+        Converter converter = converters.get(klass);
+        if (converter == null) {
+            converter = super.getConverter(klass);
+        }
+        return converter;
+    }
+
+    @Override
+    public ValueExpressionEvaluator getValueExpressionEvaluator() {
+        if (valueExpressionEvaluator == null) {
+            return super.getValueExpressionEvaluator();
+        } else {
+            return valueExpressionEvaluator;
+        }
+    }
+
+    public void setConverters(Converter[] convertersArray) {
+        for(Converter converter : convertersArray) {
+            for(Class klass : converter.getManagedClasses()) {
+                converters.put(klass, converter);
+            }
+        }
+    }
+
+    public void setValueExpressionEvaluator(ValueExpressionEvaluator valueExpressionEvaluator) {
+        this.valueExpressionEvaluator = valueExpressionEvaluator;
     }
 
     public String getDisabledUrl() {
@@ -182,12 +224,10 @@ public class FlipSpringAspect extends FlipAbstractAspect
 
             for (final Annotation annotation : annotations)
             {
-                if (annotation instanceof FlipParam)
+                FlipParam flipParam = (FlipParam)annotation;
+                if (getFeatureService().getFeatureState(flipParam.feature()) == FeatureState.DISABLED)
                 {
-                    processFlipParamAnnotation(pjpArgs, paramIndex, parameterType, (FlipParam) annotation);
-                }
-                if (annotation instanceof FlipSpElParam) {
-                    processFlipSpElParamAnnotation(pjpArgs, paramIndex, parameterType, (FlipSpElParam) annotation);
+                    pjpArgs[paramIndex] = getValueExpressionEvaluator().evaluate(pjp.getThis(), flipParam.disabledValue());
                 }
             }
             paramIndex++;
@@ -277,24 +317,5 @@ public class FlipSpringAspect extends FlipAbstractAspect
             final Object disabledResult) throws Throwable
     {
         return getFeatureService().getFeatureState(feature) == FeatureState.ENABLED ? pjp.proceed() : disabledResult;
-    }
-
-    private void processFlipParamAnnotation(final Object[] pjpArgs, final int paramIndex, final Class<?> parameterType,
-            final FlipParam flip)
-    {
-        if (getFeatureService().getFeatureState(flip.feature()) == FeatureState.DISABLED)
-        {
-            pjpArgs[paramIndex] = flip.disabledValue();
-        }
-    }
-
-    private void processFlipSpElParamAnnotation(final Object[] pjpArgs, final int paramIndex, final Class<?> parameterType,
-            final FlipSpElParam flip)
-    {
-        if (getFeatureService().getFeatureState(flip.feature()) == FeatureState.DISABLED)
-        {
-            final ExpressionParser parser = new SpelExpressionParser();
-            pjpArgs[paramIndex] = parser.parseExpression(flip.disabledValue()).getValue(parameterType);
-        }
     }
 }
