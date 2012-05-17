@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.tacitknowledge.flip</groupId>
-	<artifactId>parent</artifactId>
-	<version>1.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.tacitknowledge.flip</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<parent>
-		<groupId>com.tacitknowledge</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>1</version>
-	</parent>
+    <parent>
+        <groupId>com.tacitknowledge</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>1</version>
+    </parent>
 
-  <name>flip-parent</name>
-  <description>Java framework for implementing feature toggles</description>
-  <url>https://github.com/tacitknowledge/flip</url>
+    <name>flip-parent</name>
+    <description>Java framework for implementing feature toggles</description>
+    <url>https://github.com/tacitknowledge/flip</url>
 
-	<organization>
-		<name>Tacit Knowledge</name>
-		<url>http://www.tacitknowledge.com/</url>
-	</organization>
+    <organization>
+        <name>Tacit Knowledge</name>
+        <url>http://www.tacitknowledge.com/</url>
+    </organization>
 
-	<inceptionYear>2012</inceptionYear>
+    <inceptionYear>2012</inceptionYear>
 
-	<properties>
-		<source.jdk>1.6</source.jdk>
-		<target.jdk>1.6</target.jdk>
-		<unit.tests.pattern>**/*Test.java</unit.tests.pattern>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <source.jdk>1.6</source.jdk>
+        <target.jdk>1.6</target.jdk>
+        <unit.tests.pattern>**/*Test.java</unit.tests.pattern>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<licenses>
-		<license>
-			<name>Apache 2</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<issueManagement>
-		<system>Github Issue Tracker</system>
-		<url>https://github.com/tacitknowledge/flip/issues</url>
-	</issueManagement>
+    <issueManagement>
+        <system>Github Issue Tracker</system>
+        <url>https://github.com/tacitknowledge/flip/issues</url>
+    </issueManagement>
 
-	<scm>
-		<connection>scm:git:https://github.com/tacitknowledge/flip.git</connection>
-		<developerConnection>scm:git:git@github.com:tacitknowledge/flip.git</developerConnection>
-		<url>https://github.com/tacitknowledge/flip</url>
-	</scm>
+    <scm>
+        <connection>scm:git:https://github.com/tacitknowledge/flip.git</connection>
+        <developerConnection>scm:git:git@github.com:tacitknowledge/flip.git</developerConnection>
+        <url>https://github.com/tacitknowledge/flip</url>
+    </scm>
 
-  <modules>
-    <module>core</module>
-    <module>servlet</module>
-    <module>spring</module>
-    <module>aspectj</module>
-  </modules>
+    <modules>
+        <module>core</module>
+        <module>servlet</module>
+        <module>spring</module>
+        <module>aspectj</module>
+    </modules>
 
 </project>
