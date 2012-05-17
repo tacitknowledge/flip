@@ -16,6 +16,7 @@
     <description>Flip extensions for working with Spring Framework</description>
 
     <properties>
+        <!-- TODO: Bring coverage up to project standard. -->
         <coverage.totalBranchRate>54</coverage.totalBranchRate>
         <coverage.totalLineRate>62</coverage.totalLineRate>
         <coverage.packageLineRate>34</coverage.packageLineRate>
