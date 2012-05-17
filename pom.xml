@@ -16,7 +16,7 @@
 
     <name>flip-parent</name>
     <description>Java framework for implementing feature toggles</description>
-    <url>https://github.com/tacitknowledge/flip</url>
+    <url>http://tacitknowledge.com/flip</url>
 
     <organization>
         <name>Tacit Knowledge</name>
