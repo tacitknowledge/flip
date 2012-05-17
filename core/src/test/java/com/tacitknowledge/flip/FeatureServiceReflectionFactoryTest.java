@@ -150,9 +150,9 @@ public class FeatureServiceReflectionFactoryTest {
         List<Class> propertyReadersAsClass = Lists.transform(environment.getPropertyReaders(), transformerFunction);
         List<Class> contextProvidersAsClass = Lists.transform(environment.getContextProviders(), transformerFunction);
                 
-        assertTrue(propertyReadersAsClass.indexOf(TestPropertyReader.class) < propertyReadersAsClass.indexOf(XmlPropertyReader.class));
+        assertTrue(propertyReadersAsClass.indexOf(TestPropertyReader.class) > propertyReadersAsClass.indexOf(XmlPropertyReader.class));
         
-        assertTrue(contextProvidersAsClass.indexOf(TestContextProvider.class) < contextProvidersAsClass.indexOf(SystemPropertiesContextProvider.class));
+        assertTrue(contextProvidersAsClass.indexOf(TestContextProvider.class) > contextProvidersAsClass.indexOf(SystemPropertiesContextProvider.class));
         assertTrue(contextProvidersAsClass.indexOf(SystemPropertiesContextProvider.class) < contextProvidersAsClass.indexOf(Test1ContextProvider.class));
     }
 }

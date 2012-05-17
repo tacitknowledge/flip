@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -136,22 +137,22 @@ public class FeatureServiceReflectionFactory extends AbstractFeatureServiceFacto
 
         final List<PropertyReader> propertyReaders = Lists.newArrayList(serviceProvider.find(FlipProperty.class,
                 PropertyReader.class));
-        Collections.sort(propertyReaders, new FlipPriorityComparator());
+        Collections.sort(propertyReaders, new FlipPropertiesPriorityComparator());
         environment.setPropertyReaders(propertyReaders);
 
         final List<Object> contextProviders = Lists.newArrayList(serviceProvider.find(FlipContext.class));
-        Collections.sort(contextProviders, new FlipPriorityComparator());
+        Collections.sort(contextProviders, new FlipContextsPriorityComparator());
         environment.setContextProviders(contextProviders);
 
         return environment;
     }
 
     /**
-     * Comparator for entities that are annotated with {@link FlipProperty}.
-     * Comparison is made based on the  {@link FlipProperty#priority()} value of
-     * {@link FlipProperty} annotation. Higher priority value means precedence. 
+     * Comparator for entities that are annotated with {@link FlipContext}.
+     * Comparison is made based on the  {@link FlipContext#priority()} value of
+     * {@link FlipContext} annotation. Higher priority value means precedence. 
      */
-    private static class FlipPriorityComparator implements Comparator<Object>
+    private static class FlipContextsPriorityComparator implements Comparator<Object>
     {
 
         @Override
@@ -165,6 +166,30 @@ public class FeatureServiceReflectionFactory extends AbstractFeatureServiceFacto
 
             final int priority1 = o1.getClass().getAnnotation(FlipContext.class).priority();
             final int priority2 = o2.getClass().getAnnotation(FlipContext.class).priority();
+            return priority2 - priority1;
+        }
+
+    }
+
+    /**
+     * Comparator for entities that are annotated with {@link FlipProperty}.
+     * Comparison is made based on the  {@link FlipProperty#priority()} value of
+     * {@link FlipProperty} annotation. Higher priority value means precedence. 
+     */
+    private static class FlipPropertiesPriorityComparator implements Comparator<Object>
+    {
+
+        @Override
+        public int compare(final Object o1, final Object o2)
+        {
+            if (!o1.getClass().isAnnotationPresent(FlipProperty.class)
+                    || !o2.getClass().isAnnotationPresent(FlipProperty.class))
+            {
+                return -1;
+            }
+
+            final int priority1 = o1.getClass().getAnnotation(FlipProperty.class).priority();
+            final int priority2 = o2.getClass().getAnnotation(FlipProperty.class).priority();
             return priority2 - priority1;
         }
 
