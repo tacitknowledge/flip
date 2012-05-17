@@ -58,6 +58,27 @@
         <url>https://github.com/tacitknowledge/flip</url>
     </scm>
 
+    <developers>
+        <developer>
+            <id>ssoloviov</id>
+            <name>Serghei Soloviov</name>
+            <email>ssoloviov at tacitknowledge.com</email>
+            <organization>Tacit Knowledge</organization>
+        </developer>
+        <developer>
+            <id>pcoroli</id>
+            <name>Petric Coroli</name>
+            <email>pcoroli at tacitknowledge.com</email>
+            <organization>Tacit Knowledge</organization>
+        </developer>
+        <developer>
+            <id>scottfromsf</id>
+            <name>Scott Askew</name>
+            <email>scott at tacitknowledge.com</email>
+            <organization>Tacit Knowledge</organization>
+        </developer>
+    </developers>
+
     <modules>
         <module>core</module>
         <module>servlet</module>
