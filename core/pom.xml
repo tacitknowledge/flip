@@ -102,7 +102,7 @@
                     <schemas>
                         <schema>
                             <namespace>http://www.tacitknowledge.com/flip</namespace>
-                            <file>flip-1.0.xsd</file>
+                            <file>flip-${project.version}.xsd</file>
                         </schema>
                     </schemas>
                     <verbose>true</verbose>
