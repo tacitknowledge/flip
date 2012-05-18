@@ -34,17 +34,16 @@ import com.tacitknowledge.flip.model.FeatureState;
 import com.tacitknowledge.flip.properties.FeatureDescriptorsMap;
 
 /**
- * The web filter used to connect flip service to the web context. This filter
- * if is declared in the {@code web.xml} will add all of request parameters {@code flip.feature-name}
- * to the session which will allow overriding some of the features. Each request 
- * parameter should start with {@code "flip."} and the value should be 
- * {@code "enabled"} or {@code "disabled"}. The feature name to override will be
- * evaluated by the following rule: from the parameter name will be removed 
- * {@code "flip."} string from the start. The rest is the feature name to override.
- * This filter do not creates the session. If there is no session and in the request
- * exist feature overriding parameters they will be ignored and will not be added
- * elsewhere.
- * 
+ * Filter used to override a specific toggle for the current session.
+ * <p>
+ * To override a toggle, add the toggle override prefix ("flip" by default), followed by a period
+ * and the feature name, and set it to either 'enabled' or 'disabled'. For example, to turn off the
+ * "self-destruct" toggle, add "flip.self-destruct=disabled" to the URL.
+ * </p>
+ * <p>
+ * The override prefix can be set via the "request-param-prefix" init value. The default is "flip".
+ * </p>
+ *
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  * @author Petric Coroli <pcoroli@tacitknowledge.com>
  */
@@ -52,11 +51,19 @@ public class FlipFilter implements Filter
 {
     public static final String SESSION_FEATURES_KEY = "FLIP_SESSION_FEATURES";
 
-    private static final String REQUEST_PARAM_PREFIX = "flip.";
+    private static final String DEFAULT_REQUEST_PARAM_PREFIX = "flip.";
+
+    private static final String REQUEST_PARAM_PREFIX_CONFIG_KEY = "request-param-prefix";
+
+    private String requestParameterPrefix = DEFAULT_REQUEST_PARAM_PREFIX;
 
     public void init(final FilterConfig filterConfig) throws ServletException
     {
-        // no op
+        String prefix = filterConfig.getInitParameter(REQUEST_PARAM_PREFIX_CONFIG_KEY);
+        if (prefix != null && prefix.trim().length() > 0)
+        {
+            requestParameterPrefix = prefix.trim() + ".";
+        }
     }
 
     /**
@@ -151,7 +158,7 @@ public class FlipFilter implements Filter
         }
     }
 
-    private static class RequestParametersTransformer implements
+    private class RequestParametersTransformer implements
             Maps.EntryTransformer<String, String[], FeatureDescriptor>
     {
         public FeatureDescriptor transformEntry(final String key, final String[] value)
@@ -166,7 +173,7 @@ public class FlipFilter implements Filter
                 final FeatureState state = FeatureState.valueOf(value[0].toUpperCase());
 
                 final FeatureDescriptor featureDescriptor = new FeatureDescriptor();
-                featureDescriptor.setName(key.replaceFirst("^" + Pattern.quote(REQUEST_PARAM_PREFIX), ""));
+                featureDescriptor.setName(key.replaceFirst("^" + Pattern.quote(requestParameterPrefix), ""));
                 featureDescriptor.setState(state);
                 return featureDescriptor;
             }
@@ -177,11 +184,11 @@ public class FlipFilter implements Filter
         }
     }
 
-    private static class RequestParametersFilter implements Predicate<Map.Entry<String, FeatureDescriptor>>
+    private class RequestParametersFilter implements Predicate<Map.Entry<String, FeatureDescriptor>>
     {
         public boolean apply(final Map.Entry<String, FeatureDescriptor> input)
         {
-            return input.getKey().startsWith(REQUEST_PARAM_PREFIX) && input.getValue() != null;
+            return input.getKey().startsWith(requestParameterPrefix) && input.getValue() != null;
         }
     }
 }
