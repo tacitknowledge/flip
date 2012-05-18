@@ -1,70 +1,31 @@
-## Flip - feature toggling framework
+## Flip - A feature toggling framework
 
-Flip is embracing the concept of [Feature Toggle](http://martinfowler.com/bliki/FeatureToggle.html),
-and brings it into the Java world.
+Flip makes it simple to use [Feature Toggle](http://martinfowler.com/bliki/FeatureToggle.html),
+(also known as Feature Flags, Feature Bits, Feature Switches, etc) in your Java application.
 
-There are a several ways that this can be used, including:
+Feature toggles can be used for many purposes, including:
 
-1. Reducing the need to branch by feature in git by having all work done on master. Features that are not ready for production can be disabled.
-2. Features will eventually be enabled or disabled per user group, enabling closed betas.
-3. Should a feature become problematic, we can turn it off without requiring a build and deploy.
+1. Reducing the need to branch by feature in your source control system by having all work done on the main code line.
+   Features that are not ready for production can simply be disabled.
+2. New features can be rolled out to a subset of users (e.g. by group membership, canary testing, etc)
+2. Should a feature become problematic, we can turn it off without requiring a build and deploy.
 
+# Start Using Flip
 
-# Installation
+Flip is available in Maven Central under the following identifiers:
 
-## Maven
+* for basic Java applications: [com.tacitknowledge.flip:core:1.0](http://search.maven.org/#artifactdetails%7Ccom.tacitknowledge.flip%7Ccore%7C1.0%7Cjar)
+* for servlet applications: [com.tacitknowledge.flip:servlet:1.0](http://search.maven.org/#artifactdetails%7Ccom.tacitknowledge.flip%7Cservlet%7C1.0%7Cjar)
+* for Spring MVC applications: [com.tacitknowledge.flip:spring:1.0](http://search.maven.org/#artifactdetails%7Ccom.tacitknowledge.flip%7Cspring%7C1.0%7Cjar)
 
-Simply add whichever module you want (core, servlet, or spring) to your POM and let
-Maven do the rest. For example, to use Flip with your Spring application:
+If you're using Ant we recommend that you use Apache Ivy. If you can't do that for whatever reason, take a look at our
+[instructions for installation under Ant](https://github.com/tacitknowledge/flip/wiki/Installation-under-Ant).
 
-    <dependency>
-        <groupId>com.tacitknowledge.flip</groupId>
-        <artifactId>spring</artifactId>
-        <version>1.0</version>
-    </dependency>
-
-## Ant
-
-If you application is built using Ant you should copy the following libraries
-to your project library folder:
-
-1. flip-core-1.0.jar (the core library itself)
-2. commons-collections-3.2.1.jar from http://commons.apache.org/collections/
-3. commons-jexl-2.1.1.jar from http://commons.apache.org/jexl/
-4. commons-lang3-3.1.jar from http://commons.apache.org/lang/
-5. commons-logging-1.1.1.jar from http://commons.apache.org/logging/
-6. reflections-0.9.6.jar from http://code.google.com/p/reflections/
-7. dom4j-1.6.1.jar from http://dom4j.sourceforge.net/
-8. guava-10.0.jar from http://dom4j.sourceforge.net/
-9. javassist-3.12.1.GA.jar from http://www.javassist.org/
+The quickest way to understand how to use Flip is by looking in at the [examples](https://github.com/tacitknowledge/flip/tree/master/examples).
 
 # Documentation
 
 The documentation for Flip is on the [Flip Wiki](https://github.com/tacitknowledge/flip/wiki)
-
-# Usage
-
-After you added the library to the project tree you have to integrate it. 
-Firstly you should instantiate the `com.tacitknowledge.flip.FeatureService`
-object by using one of two default factories:
-
-1. `FeatureServiceReflectionFactory` - as the name implies, it leverages capabilities
-of reflection to perform lookup process, identifying context providers and property readers defined
-withing the system.
-2. `FeatureServiceDirectFactory` - this factory expects that required entities will be provided, leaving
-responsibility of initialization of `context providers` and `property readers` to the underlying DI framework,
-or to the developer. 
-
-After you started the feature service you have to place the invocations to
-feature service to obtain the feature state in that places of your code 
-where is needed. These steps are specific for your project and they do not 
-have a default implementations.
-
-The next step is to define the feature states. This could be done by using
-the default property reader `XmlPropertyReader` or by implementing your own.
-XmlPropertyReader obtains the feature descriptors from XML file which could
-be placed in your project.
-
 
 # Licensing
 
