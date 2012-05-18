@@ -73,7 +73,7 @@ public class SimpleFlipBootstrapServlet extends HttpServlet
         }
         packagePath = AUTOMATIC_PACKAGES + "," + packagePath;
 
-        // Split on either commas or colons and ignore leading and trailing whitespace
+        // Split on either commas, colons, or semicolons and ignore leading and trailing whitespace
         return packagePath.split("\\s*[,:;]\\s*");
     }
 }
