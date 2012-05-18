@@ -10,7 +10,7 @@
     
 <filter>
   <filter-name>flip</filter-name>
-  <filter-class>com.tacitknowledge.flip.servlet.FlipFilter</filter-class>
+  <filter-class>com.tacitknowledge.flip.servlet.FlipOverrideFilter</filter-class>
 </filter>
 
 <filter-mapping>

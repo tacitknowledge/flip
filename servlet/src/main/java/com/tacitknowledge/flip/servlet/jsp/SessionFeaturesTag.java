@@ -15,7 +15,6 @@
 package com.tacitknowledge.flip.servlet.jsp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,11 +24,10 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import com.tacitknowledge.flip.model.FeatureDescriptor;
 import com.tacitknowledge.flip.properties.FeatureDescriptorsMap;
-import com.tacitknowledge.flip.servlet.FlipFilter;
 import com.tacitknowledge.flip.servlet.FlipWebContext;
 
 /**
- * The JSP tag used to display the list of feature descriptors set by {@link FlipFilter}
+ * The JSP tag used to display the list of feature descriptors set by {@link com.tacitknowledge.flip.servlet.FlipOverrideFilter}
  * from request parameters and stored in the session.
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
@@ -38,7 +36,7 @@ import com.tacitknowledge.flip.servlet.FlipWebContext;
 public class SessionFeaturesTag extends TagSupport
 {
     /**
-     * Displays the list of feature descriptors from session set by {@link FlipFilter}
+     * Displays the list of feature descriptors from session set by {@link com.tacitknowledge.flip.servlet.FlipOverrideFilter}
      * from request attributes. It outputs them in the form:
      * <pre>
      * [feature-name] = [feature-state]&lt;br /&gt;

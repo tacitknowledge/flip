@@ -4,7 +4,7 @@
 
     <filter>
         <filter-name>flip-filter</filter-name>
-        <filter-class>com.tacitknowledge.flip.servlet.FlipFilter</filter-class>
+        <filter-class>com.tacitknowledge.flip.servlet.FlipOverrideFilter</filter-class>
         <description>Enables per-session toggle overrides based on request parameters.</description>
     </filter>
 

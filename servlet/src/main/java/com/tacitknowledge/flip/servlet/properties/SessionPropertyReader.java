@@ -17,12 +17,11 @@ package com.tacitknowledge.flip.servlet.properties;
 import com.tacitknowledge.flip.model.FeatureDescriptor;
 import com.tacitknowledge.flip.properties.AbstractPropertyReader;
 import com.tacitknowledge.flip.properties.FlipProperty;
-import com.tacitknowledge.flip.servlet.FlipFilter;
 import com.tacitknowledge.flip.servlet.FlipWebContext;
 
 /**
  * The property provider used to retrieve the feature descriptors from session
- * applied there by {@link FlipFilter} from request parameters. This property 
+ * applied there by {@link com.tacitknowledge.flip.servlet.FlipOverrideFilter} from request parameters. This property
  * provider by default has a bigger priority than {@link com.tacitknowledge.flip.properties.XmlPropertyReader}.
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>

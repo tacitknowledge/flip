@@ -11,7 +11,6 @@
         <pre>
 &lt;taglib&gt;
   &lt;taglib-uri&gt;<strong>http://www.tacitknowledge.com/flip</strong>&lt;/taglib-uri&gt;
-  &lt;taglib-location&gt;<strong>/WEB-INF/lib/flip-web.jar</strong>&lt;/taglib-location&gt;
 &lt;/taglib&gt;
         </pre>
         and in your JSP declare it as:
@@ -41,7 +40,7 @@
         <h3>flip:sessionFeatures</h3>
         This tag is used to display the current feature descriptors found in the session. In the session
         are stored the feature descriptors which was obtained from request parameters by 
-        <a href="../FlipFilter.html">FlipFilter</a>.
+        <a href="../FlipOverrideFilter.html">FlipOverrideFilter</a>.
         It displays the features in the format:
         <pre>
 &lt;feature-name&gt; = &lt;feature-state&gt;&lt;br /&gt;

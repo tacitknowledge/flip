@@ -47,7 +47,7 @@ import com.tacitknowledge.flip.properties.FeatureDescriptorsMap;
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  * @author Petric Coroli <pcoroli@tacitknowledge.com>
  */
-public class FlipFilter implements Filter
+public class FlipOverrideFilter implements Filter
 {
     public static final String SESSION_FEATURES_KEY = "FLIP_SESSION_FEATURES";
 
