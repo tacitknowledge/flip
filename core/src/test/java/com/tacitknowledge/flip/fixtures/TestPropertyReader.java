@@ -23,7 +23,7 @@ import java.util.Properties;
  *
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
-@FlipProperty
+@FlipProperty(priority=2)
 public class TestPropertyReader implements PropertyReader {
 
     public FeatureDescriptor getFeatureDescriptor(String name) {

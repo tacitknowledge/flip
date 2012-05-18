@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
-@FlipContext(name = "test")
+@FlipContext(name = "test", priority=2)
 public class TestContextProvider {
     
     public String hello() {
