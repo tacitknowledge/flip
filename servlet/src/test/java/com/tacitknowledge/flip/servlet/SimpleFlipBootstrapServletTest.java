@@ -1,16 +1,15 @@
 package com.tacitknowledge.flip.servlet;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Mockito.*;
-
 import com.google.common.collect.ObjectArrays;
 import com.tacitknowledge.flip.FlipContext;
 import org.junit.Test;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.util.Enumeration;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for the SimpleFlipBootstrapServlet.
