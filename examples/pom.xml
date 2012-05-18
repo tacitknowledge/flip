@@ -3,18 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.tacitknowledge.flip.examples</groupId>
-    <artifactId>parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
     <parent>
         <groupId>com.tacitknowledge.flip</groupId>
         <artifactId>parent</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
-    <name>flip-examples-parent</name>
+    <groupId>com.tacitknowledge.flip.examples</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Flip Examples Parent POM</name>
     <description>Examples os Flip in action.</description>
 
     <properties>

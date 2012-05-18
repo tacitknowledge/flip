@@ -13,7 +13,8 @@
     <packaging>war</packaging>
     <version>1.1-SNAPSHOT</version>
 
-    <name>Flip Web App Example</name>
+    <name>Flip Minimal Web App Example</name>
+    <description>Illustrates how to use Flip in a basic servlet environment.</description>
 
     <build>
         <finalName>flip-minimal-webapp</finalName>
