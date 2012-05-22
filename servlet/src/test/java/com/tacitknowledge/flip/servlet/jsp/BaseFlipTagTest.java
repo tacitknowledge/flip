@@ -16,12 +16,14 @@
 package com.tacitknowledge.flip.servlet.jsp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
+import com.tacitknowledge.flip.exceptions.FlipException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,5 +65,28 @@ public class BaseFlipTagTest
         when(featureService.getFeatureState("name")).thenReturn(FeatureState.ENABLED);
         tag.setFeature("name");
         assertEquals(Tag.SKIP_BODY, tag.doStartTag());
+    }
+
+    @Test
+    public void testThrowFileExceptionWhenFeatureServiceNotSet() throws JspException
+    {
+        BaseFlipTag t = new BaseFlipTag(FeatureState.ENABLED)
+        {
+            @Override
+            protected FeatureService getFeatureService()
+            {
+                return null;
+            }
+        };
+
+        try
+        {
+            t.doStartTag();
+            fail("Expected a FlipException to be thrown.");
+        }
+        catch (FlipException e)
+        {
+            // Expected
+        }
     }
 }

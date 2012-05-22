@@ -16,11 +16,10 @@ package com.tacitknowledge.flip.servlet;
 
 import com.tacitknowledge.flip.FeatureService;
 import com.tacitknowledge.flip.properties.FeatureDescriptorsMap;
-import com.tacitknowledge.flip.servlet.jsp.JspFlipTag;
 
 /**
  * The static utility class which holds the feature descriptors generated
- * by the {@link FlipFilter} and the {@link FeatureService} which could be installed
+ * by the {@link FlipOverrideFilter} and the {@link FeatureService} which could be installed
  * there by developer on application start-up time.
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
@@ -32,7 +31,7 @@ public class FlipWebContext
     private static ThreadLocal<FeatureDescriptorsMap> featureDescriptors = new ThreadLocal<FeatureDescriptorsMap>();
 
     /**
-     * Returns the feature descriptors set here by the {@link FlipFilter}.
+     * Returns the feature descriptors set here by the {@link FlipOverrideFilter}.
      * 
      * @return the {@link FeatureDescriptorsMap} with feature descriptors generated from the request.
      */
@@ -42,7 +41,7 @@ public class FlipWebContext
     }
 
     /**
-     * Sets the feature descriptors to override. By default they are set by {@link FlipFilter}
+     * Sets the feature descriptors to override. By default they are set by {@link FlipOverrideFilter}
      * generated from the request parameters.
      * 
      * @param featureDescriptors the {@link FeatureDescriptorsMap} with feature descriptors

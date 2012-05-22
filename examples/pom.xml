@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.tacitknowledge.flip</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.tacitknowledge.flip.examples</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Flip Examples Parent POM</name>
+    <description>Examples os Flip in action.</description>
+
+    <properties>
+        <!-- We don't need code coverage for example apps -->
+        <coverage.branchRate>0</coverage.branchRate>
+        <coverage.lineRate>0</coverage.lineRate>
+        <coverage.haltOnFailure>flase</coverage.haltOnFailure>
+        <coverage.totalBranchRate>0</coverage.totalBranchRate>
+        <coverage.totalLineRate>0</coverage.totalLineRate>
+        <coverage.packageLineRate>0</coverage.packageLineRate>
+        <coverage.packageBranchRate>0</coverage.packageBranchRate>
+    </properties>
+
+    <modules>
+        <module>minimal-webapp</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.0.4.v20111024</version>
+                <configuration>
+                    <!--<webAppConfig>-->
+                        <!--<contextPath>/flip</contextPath>-->
+                    <!--</webAppConfig>-->
+                    <stopPort>9966</stopPort>
+                    <stopKey>flip</stopKey>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.tacitknowledge.flip</groupId>
+            <artifactId>servlet</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

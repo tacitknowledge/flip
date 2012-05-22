@@ -9,13 +9,13 @@
         <p>
             If you want to process the request attributes and to store them in the 
             session to override the features defines in the standard way add 
-            <a href="FlipFilter.html">FlipFilter</a> to your <strong>web.xml</strong>.
+            <a href="FlipOverrideFilter.html">FlipOverrideFilter</a> to your <strong>web.xml</strong>.
             The code snipped used to add it in the <strong>web.xml</strong> is:
         </p>
         <pre>
 &lt;filter&gt;
 &nbsp;&nbsp;&lt;filter-name&gt;flip&lt;/filter-name&gt;
-&nbsp;&nbsp;&lt;filter-class&gt;<strong>com.tacitknowledge.flip.servlet.FlipFilter</strong>&lt;/filter-class&gt;
+&nbsp;&nbsp;&lt;filter-class&gt;<strong>com.tacitknowledge.flip.servlet.FlipOverrideFilter</strong>&lt;/filter-class&gt;
 &lt;/filter&gt;
 
 &lt;filter-mapping&gt;

@@ -23,13 +23,13 @@ import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpSession;
 
+import com.tacitknowledge.flip.servlet.FlipOverrideFilter;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.tacitknowledge.flip.model.FeatureDescriptor;
 import com.tacitknowledge.flip.model.FeatureState;
 import com.tacitknowledge.flip.properties.FeatureDescriptorsMap;
-import com.tacitknowledge.flip.servlet.FlipFilter;
 import com.tacitknowledge.flip.servlet.FlipWebContext;
 
 /**
@@ -47,7 +47,7 @@ public class SessionPropertyReaderTest {
         reader = new SessionPropertyReader();
         session = mock(HttpSession.class);
         sessionFeaturesMap = new FeatureDescriptorsMap();
-        when(session.getAttribute(eq(FlipFilter.SESSION_FEATURES_KEY))).thenReturn(sessionFeaturesMap);
+        when(session.getAttribute(eq(FlipOverrideFilter.SESSION_FEATURES_KEY))).thenReturn(sessionFeaturesMap);
         
         FlipWebContext.setFeatureDescriptors(sessionFeaturesMap);
     }
@@ -71,13 +71,13 @@ public class SessionPropertyReaderTest {
 
     @Test
     public void testGetFeatureStateWhenFeatureMapIsMissing() {
-        when(session.getAttribute(eq(FlipFilter.SESSION_FEATURES_KEY))).thenReturn(null);
+        when(session.getAttribute(eq(FlipOverrideFilter.SESSION_FEATURES_KEY))).thenReturn(null);
         assertNull(reader.getFeatureDescriptor("featureName"));
     }
 
     @Test
     public void testGetFeatureStateWhenSessionContainsNonMapEntity() {
-        when(session.getAttribute(eq(FlipFilter.SESSION_FEATURES_KEY))).thenReturn(new Double(3.14));
+        when(session.getAttribute(eq(FlipOverrideFilter.SESSION_FEATURES_KEY))).thenReturn(new Double(3.14));
         assertNull(reader.getFeatureDescriptor("featureName"));
     }
     

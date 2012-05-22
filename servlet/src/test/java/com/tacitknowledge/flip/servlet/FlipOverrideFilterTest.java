@@ -46,16 +46,17 @@ import com.tacitknowledge.flip.properties.FeatureDescriptorsMap;
  *
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
-public class FlipFilterTest {
+public class FlipOverrideFilterTest
+{
 
-    private FlipFilter filter;
+    private FlipOverrideFilter filter;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private FilterChain filterChain;
     
     @Before
     public void setUp() throws IOException, ServletException {
-        filter = new FlipFilter();
+        filter = new FlipOverrideFilter();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         filterChain = mock(FilterChain.class);
@@ -96,7 +97,7 @@ public class FlipFilterTest {
         when(request.getParameterMap()).thenReturn(requestParams);
         
         FeatureDescriptorsMap sessionFeatureMap = new FeatureDescriptorsMap();
-        when(session.getAttribute(FlipFilter.SESSION_FEATURES_KEY)).thenReturn(sessionFeatureMap);
+        when(session.getAttribute(FlipOverrideFilter.SESSION_FEATURES_KEY)).thenReturn(sessionFeatureMap);
 
         filter.doFilter(request, response, filterChain);
         
@@ -119,7 +120,7 @@ public class FlipFilterTest {
         when(request.getParameterMap()).thenReturn(requestParams);
         
         Map<String, FeatureDescriptor> sessionFeatureMap = new HashMap<String, FeatureDescriptor>();
-        when(session.getAttribute(FlipFilter.SESSION_FEATURES_KEY)).thenReturn(sessionFeatureMap);
+        when(session.getAttribute(FlipOverrideFilter.SESSION_FEATURES_KEY)).thenReturn(sessionFeatureMap);
 
         filter.init(filterConfig);
         filter.doFilter(request, response, filterChain);

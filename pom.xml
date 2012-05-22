@@ -1,62 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tacitknowledge.flip</groupId>
     <artifactId>parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>com.tacitknowledge</groupId>
         <artifactId>oss-parent</artifactId>
-        <version>1</version>
+        <version>2</version>
     </parent>
 
     <name>flip-parent</name>
     <description>Java framework for implementing feature toggles</description>
     <url>http://tacitknowledge.com/flip</url>
-
-    <organization>
-        <name>Tacit Knowledge</name>
-        <url>http://www.tacitknowledge.com/</url>
-    </organization>
-
     <inceptionYear>2012</inceptionYear>
 
     <properties>
-        <source.jdk>1.6</source.jdk>
-        <target.jdk>1.6</target.jdk>
-        <unit.tests.pattern>**/*Test.java</unit.tests.pattern>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <github.repo.name>flip</github.repo.name>
         <coverage.branchRate>0</coverage.branchRate>
         <coverage.lineRate>0</coverage.lineRate>
-        <coverage.haltOnFailure>true</coverage.haltOnFailure>
         <coverage.totalBranchRate>64</coverage.totalBranchRate>
         <coverage.totalLineRate>67</coverage.totalLineRate>
         <coverage.packageLineRate>65</coverage.packageLineRate>
         <coverage.packageBranchRate>42</coverage.packageBranchRate>
     </properties>
-
-    <licenses>
-        <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <issueManagement>
-        <system>Github Issue Tracker</system>
-        <url>https://github.com/tacitknowledge/flip/issues</url>
-    </issueManagement>
-
-    <scm>
-        <connection>scm:git:https://github.com/tacitknowledge/flip.git</connection>
-        <developerConnection>scm:git:git@github.com:tacitknowledge/flip.git</developerConnection>
-        <url>https://github.com/tacitknowledge/flip</url>
-    </scm>
 
     <developers>
         <developer>
@@ -114,57 +84,8 @@
     </dependencies>
 
     <build>
+        <finalName>flip-${project.artifactId}-${project.version}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.9.1</version>
-                <configuration>
-                    <configLocation>tacit_checkstyle.config</configLocation>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <instrumentation>
-                        <ignores>
-                            <ignore>com/tacitknowledge/flip/**/*Exception.class</ignore>
-                        </ignores>
-                        <excludes>
-                            <exclude>com/tacitknowledge/flip/**/*Test.class</exclude>
-                            <exclude>com/tacitknowledge/flip/**/*Exception.class</exclude>
-                        </excludes>
-                    </instrumentation>
-                    <check>
-                        <branchRate>${coverage.branchRate}</branchRate>
-                        <lineRate>${coverage.lineRate}</lineRate>
-                        <haltOnFailure>${coverage.haltOnFailure}</haltOnFailure>
-                        <totalBranchRate>${coverage.totalBranchRate}</totalBranchRate>
-                        <totalLineRate>${coverage.totalLineRate}</totalLineRate>
-                        <packageLineRate>${coverage.packageLineRate}</packageLineRate>
-                        <packageBranchRate>${coverage.packageBranchRate}</packageBranchRate>
-                    </check>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format>
-                    </formats>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -178,32 +99,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <!-- unit test run configuration -->
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <childDelegation>true</childDelegation>
-                    <includes>
-                        <include>${unit.tests.pattern}</include>
-                    </includes>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.9.1</version>
-                <configuration>
-                    <configLocation>tacit_checkstyle.config</configLocation>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 
 </project>

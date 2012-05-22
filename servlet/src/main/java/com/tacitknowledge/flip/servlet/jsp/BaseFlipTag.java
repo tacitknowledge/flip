@@ -20,6 +20,7 @@ import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import com.tacitknowledge.flip.FeatureService;
+import com.tacitknowledge.flip.exceptions.FlipException;
 import com.tacitknowledge.flip.model.FeatureState;
 
 /**
@@ -53,7 +54,12 @@ public abstract class BaseFlipTag extends TagSupport
     @Override
     public int doStartTag() throws JspException
     {
-        return getFeatureService().getFeatureState(feature) == myState ? Tag.EVAL_BODY_INCLUDE : Tag.SKIP_BODY;
+        FeatureService service = getFeatureService();
+        if (service == null)
+        {
+            throw new FlipException("The FeatureService has not been instantiated.");
+        }
+        return service.getFeatureState(feature) == myState ? Tag.EVAL_BODY_INCLUDE : Tag.SKIP_BODY;
     }
 
     /**
