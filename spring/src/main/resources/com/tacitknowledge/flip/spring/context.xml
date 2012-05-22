@@ -13,24 +13,21 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
        <aop:config>
-           <aop:aspect ref="flipHandlerAspect">
-                <aop:around method="aroundHandlerFeatureCheckerWithinFlipType" 
+           <aop:aspect ref="flipSpringAspect">
+                <aop:around method="aroundFlippableMethods" 
                             pointcut="com.tacitknowledge.flip.spring.FlipSpringAspect.anyHandlerFeatureCheckerWithinFlipType()" 
                             arg-names="pjp, flip"/>
-                <aop:around method="aroundResponseBodyHandlerFeatureCheckerWithinFlipType" 
+                <aop:around method="aroundFlippableMethods" 
                             pointcut="com.tacitknowledge.flip.spring.FlipSpringAspect.anyResponseBodyHandlerFeatureCheckerWithinFlipType()" 
                             arg-names="pjp, flip"/>
-                <aop:around method="aroundHandlerFeatureChecker" 
+                <aop:around method="aroundFlippableMethods" 
                             pointcut="com.tacitknowledge.flip.spring.FlipSpringAspect.anyHandlerFeatureChecker()" 
                             arg-names="pjp, flip" />
-                <aop:around method="aroundResponseBodyHandlerFeatureChecker" 
+                <aop:around method="aroundFlippableMethods" 
                             pointcut="com.tacitknowledge.flip.spring.FlipSpringAspect.anyResponseBodyHandlerFeatureChecker()" 
                             arg-names="pjp, flip" />
-                <aop:around method="aroundModelAttributeFeatureChecker" 
+                <aop:around method="aroundFlippableMethods" 
                             pointcut="com.tacitknowledge.flip.spring.FlipSpringAspect.anyModelAttributeFeatureChecker()" 
-                            arg-names="pjp, flip" />
-                <aop:around method="aroundMethodFeatureCheckerWithFlipParameters" 
-                            pointcut="com.tacitknowledge.flip.spring.FlipSpringAspect.anyMethodFeatureCheckerWithFlipParameters()" 
                             arg-names="pjp, flip" />
            </aop:aspect>
        </aop:config>

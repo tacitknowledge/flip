@@ -21,13 +21,18 @@ import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.ObjectContext;
 
 /**
- *
+ * This is default value expression evaluator. This evaluator uses Jexl to evaluate 
+ * the expressions.
+ * 
  * @author ssoloviov
  */
 public class JexlValueExpressionEvaluator implements ValueExpressionEvaluator {
 
     private JexlEngine engine = new JexlEngine();
     
+    /**
+     * {@inheritDoc }
+     */
     public Object evaluate(Object context, String expression) {
         Expression jexlExpression = engine.createExpression(expression);
         JexlContext jexlContext = new ObjectContext(engine, context);

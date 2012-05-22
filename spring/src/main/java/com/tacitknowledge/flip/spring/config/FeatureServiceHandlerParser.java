@@ -18,7 +18,10 @@ package com.tacitknowledge.flip.spring.config;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import com.tacitknowledge.flip.Environment;
 import com.tacitknowledge.flip.FeatureServiceDirectFactory;
+import com.tacitknowledge.flip.spring.FlipSpringAspect;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanNameReference;
@@ -31,7 +34,16 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 /**
- *
+ * Parses the <code>&lt;flip:feature-service /&gt;</code> declaration in 
+ * Spring XML based context.
+ * 
+ * This Spring Context tag could contain <code>environment</code> attribute
+ * which references to {@link Environment} bean. Also it could contain
+ * <code>&lt;context-providers&gt;</code> tag with nested Context Providers beans
+ * declarations or references to them. In the same style you can set up
+ * the property readers in <code>&lt;property-readers&gt;</code>. And in nested tag
+ * <code>&lt;properties&gt;</code> with nested <code>bean:prop</code> elements.
+ * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class FeatureServiceHandlerParser extends AbstractBeanDefinitionParser {
@@ -40,7 +52,7 @@ public class FeatureServiceHandlerParser extends AbstractBeanDefinitionParser {
     protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
         BeanDefinitionBuilder factoryBuilder = BeanDefinitionBuilder.rootBeanDefinition(FeatureServiceDirectFactory.class);
         RootBeanDefinition factoryBean = (RootBeanDefinition) factoryBuilder.getBeanDefinition();
-        parserContext.getRegistry().registerBeanDefinition("featureServiceFactory", factoryBean);
+        parserContext.getRegistry().registerBeanDefinition(FlipSpringAspect.FEATURE_SERVICE_FACTORY_BEAN_NAME, factoryBean);
         
         MutablePropertyValues factoryPropertyValues = new MutablePropertyValues();
         factoryBean.setPropertyValues(factoryPropertyValues);
@@ -76,9 +88,9 @@ public class FeatureServiceHandlerParser extends AbstractBeanDefinitionParser {
         
         BeanDefinitionBuilder featureServiceBuilder = BeanDefinitionBuilder.genericBeanDefinition();
         BeanDefinition featureServiceRawBean = featureServiceBuilder.getRawBeanDefinition();
-        featureServiceRawBean.setFactoryBeanName("featureServiceFactory");
+        featureServiceRawBean.setFactoryBeanName(FlipSpringAspect.FEATURE_SERVICE_FACTORY_BEAN_NAME);
         featureServiceRawBean.setFactoryMethodName("createFeatureService");
-        parserContext.getRegistry().registerBeanDefinition("featureService", featureServiceBuilder.getBeanDefinition());
+        parserContext.getRegistry().registerBeanDefinition(FlipSpringAspect.FEATURE_SERVICE_BEAN_NAME, featureServiceBuilder.getBeanDefinition());
         
         return null;
     }

@@ -16,11 +16,20 @@
 package com.tacitknowledge.flip.aspectj;
 
 /**
- *
+ * The interface adapter used to evaluate the value expressions.
+ * 
  * @author ssoloviov
  */
 public interface ValueExpressionEvaluator {
     
+    /**
+     * Evaluates the value expressions. The implementors could use his own
+     * expression evaluators. By default is used {@link JexlValueExpressionEvaluator}.
+     * 
+     * @param context the context used to evaluate the expression.
+     * @param expression the expression to evaluate.
+     * @return the object obtained after evaluating the expression.
+     */
     public Object evaluate(Object context, String expression);
     
 }

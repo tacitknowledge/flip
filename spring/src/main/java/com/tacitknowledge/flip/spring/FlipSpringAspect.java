@@ -15,37 +15,34 @@
  */
 package com.tacitknowledge.flip.spring;
 
-import com.tacitknowledge.flip.aspectj.FlipParam;
 import com.tacitknowledge.flip.aspectj.Flippable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.tacitknowledge.flip.FeatureService;
 import com.tacitknowledge.flip.FlipContext;
 import com.tacitknowledge.flip.aspectj.FlipAbstractAspect;
+import com.tacitknowledge.flip.aspectj.FlipAopContext;
 import com.tacitknowledge.flip.aspectj.ValueExpressionEvaluator;
 import com.tacitknowledge.flip.aspectj.converters.Converter;
-import com.tacitknowledge.flip.model.FeatureState;
-import org.aspectj.lang.ProceedingJoinPoint;
+import com.tacitknowledge.flip.aspectj.converters.ConvertersHandler;
+import com.tacitknowledge.flip.aspectj.converters.FallDownConvertersHandler;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * An aspect that intercepts all calls to controller's methods that are annotated with {@link Flip} annotations.
+ * An aspect that intercepts all calls to controller's methods that are annotated with {@link Flippable} annotations.
  * Each of the methods are required to have a {@link RequestMapping} or {@link ModelAttribute} annotation 
- * in their signature. If feature identified by {@link Flip#feature()} is disabled, the aspect will redirect to the 
- * {@link Flip#disabledUrl()}, or return <code>null</code>, in case of {@link ModelAttribute} or if method 
+ * in their signature. If feature identified by {@link Flippable#feature()} is disabled, the aspect will redirect to the 
+ * {@link Flippable#disabledValue()}, or return <code>null</code>, in case of {@link ModelAttribute} or if method 
  * is additionally annotated with {@link ResponseBody}.
+ * 
+ * This object could be instantiated by Spring IoC container where could be injected
+ * {@link FeatureService}, converters and {@link ValueExpressionEvaluator}.
+ * By default is used SpEL value expression engine.
  * 
  * @author Ion Lenta (ilenta@tacitknowledge.com)
  * @author Petric Coroli (pcoroli@tacitknowledge.com)
@@ -55,36 +52,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @SuppressWarnings("unused")
 public class FlipSpringAspect extends FlipAbstractAspect
 {
+    public static final String ASPECT_BEAN_NAME = "flipSpringAspect";
+    public static final String FEATURE_SERVICE_BEAN_NAME = "featureService";
+    public static final String FEATURE_SERVICE_FACTORY_BEAN_NAME = "featureServiceFactory";
+    
+    /**
+     * Feature Service used to manage the features.
+     */
     @Autowired(required=true)
     private FeatureService featureService;
     
-    private Map<Class, Converter> converters = new HashMap<Class, Converter>();
-    private ValueExpressionEvaluator valueExpressionEvaluator;
+    /**
+     * Converter handler used to manage the converters.
+     */
+    private ConvertersHandler convertersHandler = new FallDownConvertersHandler(FlipAopContext.getConvertersHandler());
     
-    private String disabledUrl;
+    /**
+     * SpEL value expression engine used to evaluate the expressions.
+     */
+    private ValueExpressionEvaluator valueExpressionEvaluator = new SpElValueExpressionEvaluator();
 
-    public FlipSpringAspect() {
-        valueExpressionEvaluator = new SpElValueExpressionEvaluator();
-    }
-    
     public void setFeatureService(FeatureService featureService) {
         this.featureService = featureService;
     }
     
+    /** {@inheritDoc } */
     @Override
     public FeatureService getFeatureService() {
         return FlipContext.chooseFeatureService(featureService);
     }
 
+    /** {@inheritDoc } */
     @Override
-    public Converter getConverter(Class klass) {
-        Converter converter = converters.get(klass);
-        if (converter == null) {
-            converter = super.getConverter(klass);
-        }
-        return converter;
+    public ConvertersHandler getConvertersHandler() {
+        return convertersHandler;
     }
 
+    /** {@inheritDoc } */
     @Override
     public ValueExpressionEvaluator getValueExpressionEvaluator() {
         if (valueExpressionEvaluator == null) {
@@ -94,150 +98,26 @@ public class FlipSpringAspect extends FlipAbstractAspect
         }
     }
 
+    /**
+     * Sets the array of converters used additionally to use.
+     * 
+     * @param convertersArray the array of converters.
+     */
     public void setConverters(Converter[] convertersArray) {
-        for(Converter converter : convertersArray) {
-            for(Class klass : converter.getManagedClasses()) {
-                converters.put(klass, converter);
-            }
-        }
+        convertersHandler.addConverters(convertersArray);
     }
 
+    /**
+     * Sets the Value expression evaluator used to process the expressions.
+     * 
+     * @param valueExpressionEvaluator the instance of {@link ValueExpressionEvaluator} used 
+     *  to process the expressions.
+     */
     public void setValueExpressionEvaluator(ValueExpressionEvaluator valueExpressionEvaluator) {
         this.valueExpressionEvaluator = valueExpressionEvaluator;
     }
 
-    public String getDisabledUrl() {
-        return disabledUrl;
-    }
-
-    public void setDisabledUrl(String disabledUrl) {
-        this.disabledUrl = disabledUrl;
-    }
-
-    /**
-     * The advice is executed before and after a controller handler whose class is annotated with
-     * the {@link Flip} annotation
-     * @param pjp gives access to the actual object being called
-     * @param flip the annotation placed on type
-     * @return If feature identified by <code>flip.feature()</code> is disabled, 
-     *      the aspect will be redirected to the <code>flip.disabledUrl()</code>.
-     * @throws Throwable if any exceptions occurred 
-     */
-    public Object aroundHandlerFeatureCheckerWithinFlipType(final ProceedingJoinPoint pjp)
-        throws Throwable
-    {
-        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledValue() == null ? disabledUrl : flip.disabledValue());
-    }
-
-    /**
-     * The advice is executed before and after a controller handler whose class is annotated with
-     * the {@link Flip} annotation
-     * @param pjp gives access to the actual object being called
-     * @param flip the annotation placed on type
-     * @return If feature identified by <code>flip.feature()</code> is disabled,
-     *      the aspect will return <code>null</code>.
-     * @throws Throwable if any exceptions occurred 
-     */
-    public Object aroundResponseBodyHandlerFeatureCheckerWithinFlipType(final ProceedingJoinPoint pjp)
-        throws Throwable
-    {
-        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), null);
-    }
-
-    /**
-     * The advice is executed before and after a controller handler that is annotated with
-     * the {@link Flip} annotation
-     * @param pjp gives access to the actual object being called
-     * @param flip the annotation placed on the method
-     * @return If feature identified by <code>flip.feature()</code> is disabled, 
-     *      the aspect will be redirected to the <code>flip.disabledUrl()</code>.
-     * @throws Throwable if any exceptions occurred 
-     */
-    public Object aroundHandlerFeatureChecker(final ProceedingJoinPoint pjp) throws Throwable
-    {
-        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), flip.disabledValue() == null ? disabledUrl : flip.disabledValue());
-    }
-
-    /**
-     * The advice is executed before and after a controller handler that is annotated with
-     * the {@link Flip} annotation
-     * @param pjp gives access to the actual object being called
-     * @param flip the annotation placed on the method
-     * @return If feature identified by <code>flip.feature()</code> is disabled,
-     *      the aspect will return <code>null</code>.
-     * @throws Throwable if any exceptions occurred 
-     */
-    public Object aroundResponseBodyHandlerFeatureChecker(final ProceedingJoinPoint pjp)
-        throws Throwable
-    {
-        final Flippable flip = getMethodAnnotation(pjp, Flippable.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), null);
-    }
-
-    /**
-     * The advice is executed before and after a controller's model attribute method that is annotated with
-     * the {@link Flip} annotation
-     * @param pjp gives access to the actual object being called
-     * @param flip the annotation placed on the method
-     * @return If feature identified by <code>flip.feature()</code> is disabled, 
-     *      the aspect will return <code>null</code>.
-     * @throws Throwable if any exceptions occurred 
-     */
-    public Object aroundModelAttributeFeatureChecker(final ProceedingJoinPoint pjp) throws Throwable
-    {
-        final Flippable flip =  getMethodAnnotation(pjp, Flippable.class);
-        return processAroundHandlerForFeature(pjp, flip.feature(), null);
-    }
-
-    /**
-     * The advice is executed before and after a method invocation, that is annotated with 
-     * {@link FlipParameters} annotation. All of the method's parameters marked with {@link FlipParam} annotation
-     * are taken through the process of feature toggling, replacing the value of the original parameter with that of
-     * {@link FlipParam#disabledValue()}, in case feature identified by {@link FlipParam#feature()} is disabled.
-     * Additionally, if {@link FlipParam#asSpEL()} is set to <code>true</code>, the value of 
-     * {@link FlipParam#disabledValue()} is considered to be a SpEL expression that gets evaluated respectively,
-     * by the means of 
-     * <a href="http://static.springsource.org/spring/docs/3.0.5.RELEASE/reference/expressions.html">SpEL</a>
-     * 
-     * @param pjp gives access to the actual object being called
-     * @param flip the annotation placed on a method
-     * @return value from the actual method that is being woven
-     * @throws Throwable if any exceptions occurred
-     */
-    public Object aroundMethodFeatureCheckerWithFlipParameters(final ProceedingJoinPoint pjp)
-        throws Throwable
-    {
-        final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
-        final Method method = methodSignature.getMethod();
-
-        final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-        final Class<?>[] parameterTypes = method.getParameterTypes();
-        final Object[] pjpArgs = pjp.getArgs();
-
-        int paramIndex = 0;
-        for (final Annotation[] annotations : parameterAnnotations)
-        {
-            final Class<?> parameterType = parameterTypes[paramIndex];
-
-            for (final Annotation annotation : annotations)
-            {
-                FlipParam flipParam = (FlipParam)annotation;
-                if (getFeatureService().getFeatureState(flipParam.feature()) == FeatureState.DISABLED)
-                {
-                    pjpArgs[paramIndex] = getValueExpressionEvaluator().evaluate(pjp.getThis(), flipParam.disabledValue());
-                }
-            }
-            paramIndex++;
-        }
-
-        return pjp.proceed(pjpArgs);
-    }
-
     /** A pointcut expression that matches all public methods */
-    
     @Pointcut("execution(public * *(..))")
     protected void anyPublicMethod()
     {
@@ -301,21 +181,5 @@ public class FlipSpringAspect extends FlipAbstractAspect
     {
     	//no-op
     }
-
-    @Pointcut("anyMethod() && @annotation(com.tacitknowledge.flip.aspectj.Flippable)")
-    public void anyMethodFeatureCheckerWithFlipParameters()
-    {
-    	//no-op
-    }
-
-    protected <T extends Annotation> T getMethodAnnotation(final ProceedingJoinPoint pjp, final Class<T> annotation)
-    {
-        return ((MethodSignature) pjp.getSignature()).getMethod().getAnnotation(annotation);
-    }
     
-    private Object processAroundHandlerForFeature(final ProceedingJoinPoint pjp, final String feature,
-            final Object disabledResult) throws Throwable
-    {
-        return getFeatureService().getFeatureState(feature) == FeatureState.ENABLED ? pjp.proceed() : disabledResult;
-    }
 }

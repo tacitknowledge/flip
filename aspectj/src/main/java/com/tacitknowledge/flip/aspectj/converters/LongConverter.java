@@ -19,17 +19,20 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
- *
+ * Converter used to convert long values from string.
+ * 
  * @author ssoloviov
  */
 public class LongConverter implements Converter {
 
     private static final Class[] MANAGES_CLASSES = new Class[] { Long.TYPE, Long.class };
     
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGES_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return NumberUtils.toLong(expression);
     }

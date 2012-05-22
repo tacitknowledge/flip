@@ -15,62 +15,49 @@
  */
 package com.tacitknowledge.flip.aspectj;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.tacitknowledge.flip.aspectj.converters.BooleanConverter;
-import com.tacitknowledge.flip.aspectj.converters.ByteConverter;
-import com.tacitknowledge.flip.aspectj.converters.CharacterConverter;
-import com.tacitknowledge.flip.aspectj.converters.Converter;
-import com.tacitknowledge.flip.aspectj.converters.DoubleConverter;
-import com.tacitknowledge.flip.aspectj.converters.FloatConverter;
-import com.tacitknowledge.flip.aspectj.converters.IntegerConverter;
-import com.tacitknowledge.flip.aspectj.converters.LongConverter;
-import com.tacitknowledge.flip.aspectj.converters.ShortConverter;
+import com.tacitknowledge.flip.aspectj.converters.ConvertersHandler;
 
 /**
- *
+ * The context used in AOP flipping actions. This class contains only static
+ * methods which allows retrieving the converters and value expression evaluators
+ * used to process disabled values.
+ * 
  * @author ssoloviov
  */
 public class FlipAopContext {
     
-    private static final Map<Class, Converter> converters = new HashMap<Class, Converter>();
+    private static final ConvertersHandler convertersHandler = new ConvertersHandler();
     private static ValueExpressionEvaluator valueExpressionEvaluator;
     
     static {
-        addConverters(new Converter[]{
-            new BooleanConverter(),
-            new ByteConverter(),
-            new CharacterConverter(),
-            new DoubleConverter(),
-            new FloatConverter(),
-            new IntegerConverter(),
-            new LongConverter(),
-            new ShortConverter()
-        });
         valueExpressionEvaluator = new JexlValueExpressionEvaluator();
     }
     
-    public static synchronized void addConverter(Converter converter) {
-        for(Class klass : converter.getManagedClasses()) {
-            converters.put(klass, converter);
-        }
-    }
-    
-    public static synchronized void addConverters(Converter[] converters) {
-        for(Converter converter : converters) {
-            addConverter(converter);
-        }
-    }
-    
-    public static Converter getConverter(Class klass) {
-        return converters.get(klass);
+    /**
+     * Returns {@link ConvertersHandler} instance used to obtain converter.
+     * 
+     * @return the {@link ConvertersHandler} instance.
+     */
+    public static ConvertersHandler getConvertersHandler() {
+        return convertersHandler;
     }
 
+    /**
+     * Returns the {@link ValueExpressionEvaluator} used to evaluate the 
+     * expressions used as disabled values.
+     * 
+     * @return the {@link ValueExpressionEvaluator}.
+     */
     public static ValueExpressionEvaluator getValueExpressionEvaluator() {
         return valueExpressionEvaluator;
     }
 
+    /**
+     * Sets the value expression evaluator. When the disabled value will contain
+     * the value expression this evaluator will be used.
+     * 
+     * @param valueExpressionEvaluator {@link ValueExpressionEvaluator} instance.
+     */
     public static synchronized void setValueExpressionEvaluator(ValueExpressionEvaluator valueExpressionEvaluator) {
         FlipAopContext.valueExpressionEvaluator = valueExpressionEvaluator;
     }

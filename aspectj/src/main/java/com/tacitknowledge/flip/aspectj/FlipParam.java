@@ -35,7 +35,9 @@ public @interface FlipParam
     /** The name of the feature */
     String feature();
 
-    /** The value parameter to be overridden with if the feature is disabled */
+    /** The value parameter to be overridden with if the feature is disabled. 
+     * This parameter could contain a value expression inside <code>${}</code>.
+     */
     String disabledValue();
 
 }

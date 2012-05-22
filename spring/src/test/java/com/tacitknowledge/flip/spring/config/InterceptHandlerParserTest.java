@@ -42,18 +42,15 @@ public class InterceptHandlerParserTest {
     
     @Test
     public void testCreateFlipHandlerAspect() {
-        assertTrue(context.containsBeanDefinition("flipHandlerAspect"));
-        BeanDefinition flipHandlerAspectBeanDefinition = context.getBeanDefinition("flipHandlerAspect");
+        assertTrue(context.containsBeanDefinition(FlipSpringAspect.ASPECT_BEAN_NAME));
+        BeanDefinition flipHandlerAspectBeanDefinition = context.getBeanDefinition(FlipSpringAspect.ASPECT_BEAN_NAME);
         MutablePropertyValues properties = flipHandlerAspectBeanDefinition.getPropertyValues();
-        for(PropertyValue prop : properties.getPropertyValueList()) {
-            System.out.println(prop.getName() + " = " + prop.getValue().toString());
-        }
         assertEquals(FlipSpringAspect.class.getName(), flipHandlerAspectBeanDefinition.getBeanClassName());
         
-        FlipSpringAspect aspect = context.getBean("flipHandlerAspect", FlipSpringAspect.class);
+        FlipSpringAspect aspect = context.getBean(FlipSpringAspect.ASPECT_BEAN_NAME, FlipSpringAspect.class);
         assertNotNull(aspect.getFeatureService());
-        assertNotNull(aspect.getDisabledUrl());
-        assertEquals("test", aspect.getDisabledUrl());
+        assertNotNull(aspect.getDefaultValue());
+        assertEquals("test", aspect.getDefaultValue());
         
     }
     

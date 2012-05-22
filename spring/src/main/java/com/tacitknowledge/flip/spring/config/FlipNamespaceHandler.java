@@ -15,10 +15,14 @@
  */
 package com.tacitknowledge.flip.spring.config;
 
+import com.tacitknowledge.flip.FeatureService;
+import com.tacitknowledge.flip.spring.FlipSpringAspect;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- *
+ * The Spring context namespace handler which contains the tags used to declare
+ * {@link FeatureService} and {@link FlipSpringAspect} beans.
+ * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class FlipNamespaceHandler extends NamespaceHandlerSupport {

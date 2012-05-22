@@ -18,17 +18,21 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.CharUtils;
 
 /**
- *
+ * The converter used to convert strings to char. If the string contains more than 
+ * one character it will return only the first one.
+ * 
  * @author ssoloviov
  */
 public class CharacterConverter implements Converter {
     
     private static final Class[] MANAGED_CLASSES = new Class[] { Character.TYPE, Character.class };
 
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGED_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return CharUtils.toChar(expression);
     }

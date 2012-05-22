@@ -20,11 +20,13 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 /**
- *
+ * The SpEL value expression evaluator used in spring managed application.
+ * 
  * @author ssoloviov
  */
-class SpElValueExpressionEvaluator implements ValueExpressionEvaluator {
+public class SpElValueExpressionEvaluator implements ValueExpressionEvaluator {
 
+    /** {@inheritDoc } */
     public Object evaluate(Object context, String expression) {
         final ExpressionParser parser = new SpelExpressionParser();
         return parser.parseExpression(expression).getValue(context);

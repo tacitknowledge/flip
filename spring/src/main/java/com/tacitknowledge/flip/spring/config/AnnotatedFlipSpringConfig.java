@@ -24,6 +24,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 /**
+ * Spring annotation based configuration used to activate flip.
+ * This spring configuration should be imported by your application configuration.
+ * This configuration do not created the aspect. This should be done in your configuration
+ * invoking {@link #createFlipSpringAspect(java.lang.String) } or 
+ * {@link #createFlipSpringAspect(com.tacitknowledge.flip.FeatureService, java.lang.String) }
+ * methods.
+ * To create {@link FeatureService} instance you should create the 
+ * {@link FeatureServiceDirectFactory} configured bean.
+ * By default the {@link FeatureServiceDirectFactory} bean should be named as
+ * "featureServiceFactory". The {@link FlipSpringAspect} bean should be named
+ * as "flipSptingAspect".
+ * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 @Configuration
@@ -33,20 +45,39 @@ public class AnnotatedFlipSpringConfig {
     @Autowired
     private FeatureServiceDirectFactory factory;
 
+    /**
+     * Creates the Flip Aspect with defined {@link FeatureService} and defaultUrl.
+     * 
+     * @param featureService the {@link FeatureService} to inject into aspect.
+     * @param defaultUrl the default url to use.
+     * @return the {@link FlipSpringAspect}.
+     */
     public static FlipSpringAspect createFlipSpringAspect(FeatureService featureService, String defaultUrl) {
         FlipSpringAspect aspect = new FlipSpringAspect();
         aspect.setFeatureService(featureService);
-        aspect.setDisabledUrl(defaultUrl);
+        aspect.setDefaultValue(defaultUrl);
         return aspect;
     }
 
+    /**
+     * Creates the Flip Aspect with defined defaultUrl only.
+     * 
+     * @param defaultUrl the default url to use.
+     * @return the {@link FlipSpringAspect}.
+     */
     public static FlipSpringAspect createFlipSpringAspect(String defaultUrl) {
         FlipSpringAspect aspect = new FlipSpringAspect();
-        aspect.setDisabledUrl(defaultUrl);
+        aspect.setDefaultValue(defaultUrl);
         return aspect;
     }
     
-    @Bean(name="featureService")
+    /**
+     * Creates a {@link FeatureService} bean. It is created using bean of type
+     * {@link FeatureServiceDirectFactory} named as "featureServiceFactory".
+     * 
+     * @return the {@link FeatureService}.
+     */
+    @Bean(name=FlipSpringAspect.FEATURE_SERVICE_BEAN_NAME)
     public FeatureService featureService() {
         return factory.createFeatureService();
     }

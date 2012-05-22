@@ -17,7 +17,6 @@ package com.tacitknowledge.flip.spring.config;
 
 import com.tacitknowledge.flip.spring.FlipSpringAspect;
 import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.factory.config.RuntimeBeanNameReference;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -28,7 +27,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 
 /**
- *
+ * Spring Context tag parser which adds to the context the {@link FlipSpringAspect} bean.
+ * This tag could contain the <code>default-url</code> attribute with the default
+ * URL.
+ * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 public class InterceptHandlerParser extends AbstractBeanDefinitionParser {
@@ -40,14 +42,14 @@ public class InterceptHandlerParser extends AbstractBeanDefinitionParser {
         BeanDefinitionBuilder beanBuilder = BeanDefinitionBuilder.rootBeanDefinition(FlipSpringAspect.class);
         String defaultUrlValue = element.getAttribute("default-url");
         MutablePropertyValues propertyValues = new MutablePropertyValues();
-        propertyValues.addPropertyValue("disabledUrl", defaultUrlValue);
-        propertyValues.addPropertyValue("featureService", new RuntimeBeanReference("featureService"));
+        propertyValues.addPropertyValue("defaultValue", defaultUrlValue);
+        propertyValues.addPropertyValue(FlipSpringAspect.FEATURE_SERVICE_BEAN_NAME, new RuntimeBeanReference(FlipSpringAspect.FEATURE_SERVICE_BEAN_NAME));
         beanBuilder.getRawBeanDefinition().setPropertyValues(propertyValues);
         
         for(String name : factory.getBeanDefinitionNames()) {
             parserContext.getRegistry().registerBeanDefinition(name, factory.getBeanDefinition(name));
         }
-        parserContext.getRegistry().registerBeanDefinition("flipHandlerAspect", beanBuilder.getBeanDefinition());
+        parserContext.getRegistry().registerBeanDefinition(FlipSpringAspect.ASPECT_BEAN_NAME, beanBuilder.getBeanDefinition());
         
         return null;
     }

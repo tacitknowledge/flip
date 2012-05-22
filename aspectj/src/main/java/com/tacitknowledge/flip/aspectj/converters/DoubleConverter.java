@@ -18,17 +18,20 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
- *
+ * Converter used to convert double values from string.
+ * 
  * @author ssoloviov
  */
 public class DoubleConverter implements Converter {
  
     private static final Class[] MANAGED_CLASSES = new Class[] { Double.TYPE, Double.class };
 
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGED_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return NumberUtils.toDouble(expression);
     }

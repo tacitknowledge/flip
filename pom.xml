@@ -152,7 +152,10 @@
                         <packageLineRate>${coverage.packageLineRate}</packageLineRate>
                         <packageBranchRate>${coverage.packageBranchRate}</packageBranchRate>
                     </check>
-                    <format>xml</format>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
                 </configuration>
                 <executions>
                     <execution>

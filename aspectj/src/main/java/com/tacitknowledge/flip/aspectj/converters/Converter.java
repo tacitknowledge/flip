@@ -16,12 +16,26 @@
 package com.tacitknowledge.flip.aspectj.converters;
 
 /**
- *
+ * The converted class used to convert disabled values (represented by string)
+ * to objects of required type.
+ * 
  * @author ssoloviov
  */
 public interface Converter {
-    
+   
+    /**
+     * Returns the array of class to which this converter could convert.
+     * 
+     * @return the array of classes to which this converter can convert.
+     */
     Class[] getManagedClasses();
+    
+    /**
+     * Converts a string into an object. 
+     * @param expression the string to convert
+     * @param outputClass The type of object to convert to.
+     * @return the object converted.
+     */
     Object convert(String expression, Class outputClass);
     
 }

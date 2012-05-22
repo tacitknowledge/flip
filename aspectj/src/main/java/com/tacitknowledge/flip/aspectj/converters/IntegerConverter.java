@@ -18,17 +18,20 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
- *
+ * Converter used to convert integer values.
+ * 
  * @author ssoloviov
  */
 public class IntegerConverter implements Converter {
     
     private static final Class[] MANAGES_CLASSES = new Class[] { Integer.TYPE, Integer.class };
 
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGES_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return NumberUtils.toInt(expression);
     }

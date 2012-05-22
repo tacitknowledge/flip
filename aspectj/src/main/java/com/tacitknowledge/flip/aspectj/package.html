@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        The classes which allows you to enable AspectJ intercepting methods in your application.
+        <h2>Setup</h2>
+        <p>
+            To enable AspectJ for your application proceed as described in the official documentation
+            and in <code>aop.xml</code> specify as aspect the class <a href="FlipAspectJAspect.html">FlipAspectJAspect</a>.
+            To enable the feature toggling you should create the <code>FeatureService</code> object and add it 
+            by <code>FlipContext.setFeatureService(FeatureService)</code>.
+        </p>
+        <h2>Usage example</h2>
+        <h3>Intercept methods</h3>
+        <p>
+            In your application the methods which should be intercepted annotate with
+            <a href="Flippable.html">Flippable</a> annotation. The <code>feature()</code>
+            parameter could define the feature name which affect the behavior of the method. 
+            So if this feature is disabled then the method will not be called and the 
+            returning value will be the declared in <code>disabledValue()</code> parameter.
+        </p>
+        <p>
+            However not all of the methods returns string values, here could be any object. 
+            So if the method do not returns the string then the converters are applied. 
+            The converter is an object used to convert from string representation of the value
+            to the object required. By default are used converters for all primitive types and their
+            wrappers. If you need to register your own converter you can set it by 
+            <a href="converters/ConvertersHandler.html#addConverter(com.tacitknowledge.flip.aspectj.converters.Converter)">ConvertersHandler.addConverter(com.tacitknowledge.flip.aspectj.converters.Converter)</a>
+            accessed by <a href="FlipAopContext.html#getConvertersHandler()"></a>.
+        </p>
+        <p>
+            Another option is to use value expressions. The value expressions should be 
+            written inside <code>${}</code>. The expressions written here are inside the
+            object where the method is declared. <br />
+            If the default Value Expression evaluator do not matches your needs
+            you can create your own and set it by <a href="FlipAopContext.html#setValueExpressionEvaluator(com.tacitknowledge.flip.aspectj.ValueExpressionEvaluator)">FlipAopContext.html#setValueExpressionEvaluator(com.tacitknowledge.flip.aspectj.ValueExpressionEvaluator)</a>.
+        </p>
+        <h3>Intercept parameters</h3>
+        <p>
+            If you do not need to override the result of method evaluation by only to
+            override its parameters you could use <a href="FlipParam.html">FlipParam</a> annotation
+            for methods parameters. The annotation has the same parameters as <a href="Flippable.html">Flippable</a> 
+            with the same meaning. Also this method should be marked to <a href="Flippable.html">Flippable</a>
+            annotation without any parameters. However you can declare the parameters to <a href="Flippable.html">Flippable</a>.
+            In this situation firstly will be evaluated the method level annotation and if the feature 
+            is disabled then the <code>disabledValue()</code> will be returned, otherwise
+            will be processed all the methods parameters annotated and with modified parameters
+            the methods will be invoked.
+        </p>
+    </body>
+</html>

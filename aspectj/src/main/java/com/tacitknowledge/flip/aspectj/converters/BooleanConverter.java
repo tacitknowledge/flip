@@ -18,17 +18,23 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.BooleanUtils;
 
 /**
- *
+ * The converted used to convert from string boolean values.
+ * By default this converter will convert to <code>true</code> the strings 
+ * <code>true</code>, <code>yes</code> or <code>on</code>, in other cases
+ * will return <code>false</code>.
+ * 
  * @author ssoloviov
  */
 public class BooleanConverter implements Converter {
 
     private static final Class[] MANAGED_CLASSES = new Class[] {Boolean.TYPE, Boolean.class};
-    
+   
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGED_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return BooleanUtils.toBoolean(expression);
     }

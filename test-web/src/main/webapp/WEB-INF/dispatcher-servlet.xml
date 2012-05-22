@@ -35,9 +35,9 @@
        
        <mvc:annotation-driven /> 
        
-       <bean class="com.tacitknowledge.testweb.FeatureServiceBeanSetter">
+<!--       <bean class="com.tacitknowledge.testweb.FeatureServiceBeanSetter">
            <property name="featureService" ref="featureService" />
-       </bean>
+       </bean>-->
        
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"

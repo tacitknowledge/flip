@@ -27,6 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Annotation to be used on handler methods for making it feature toggle aware.
+ * If you have only to intercept the methods parameters you can declare it 
+ * without any parameters.
  * 
  * @author Ion Lenta (ilenta@tacitknowledge.com)
  * @author Petric Coroli (pcoroli@tacitknowledge.com)
@@ -39,6 +41,8 @@ public @interface Flippable
     /** The name of the feature */
     String feature() default StringUtils.EMPTY;
 
-    /** The path to redirect to if the feature is disabled */
+    /** The path to redirect to if the feature is disabled. 
+     * This parameter could contain value expression inside <code>${}</code>.
+     */
     String disabledValue() default StringUtils.EMPTY;
 }

@@ -6,6 +6,7 @@ package com.tacitknowledge.testweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,18 +15,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tacitknowledge.flip.FeatureService;
+import com.tacitknowledge.flip.FeatureServiceReflectionFactory;
+import com.tacitknowledge.flip.FlipContext;
 import com.tacitknowledge.flip.aspectj.Flippable;
 
 /**
  *
  * @author ssoloviov
  */
-@WebServlet(name = "Test", urlPatterns = {"/test"}, loadOnStartup=2)
+@WebServlet(name = "Test", loadOnStartup=1)
 public class Test extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        FeatureServiceReflectionFactory factory = new FeatureServiceReflectionFactory();
+        FeatureService featureService = factory.createFeatureService("com.tacitknowledge.flip");
+        FlipContext.setFeatureService(featureService);
+        Logger.getAnonymousLogger().warning("HHHHHHHHHHHHHEEEEEEEEEEEELLLLOOOOOOOOOOOO");
+        
 //        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
 //        
 //        FlipContext.setFeatureService(context.getBean("featureService", FeatureService.class));

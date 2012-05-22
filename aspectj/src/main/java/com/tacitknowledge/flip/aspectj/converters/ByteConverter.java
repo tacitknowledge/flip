@@ -18,17 +18,20 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
- *
+ * The converted used to convert strings to byte.
+ * 
  * @author ssoloviov
  */
 public class ByteConverter implements Converter {
     
     private static final Class[] MANAGED_CLASSES = new Class[] { Byte.TYPE, Byte.class };
 
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGED_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return NumberUtils.toByte(expression);
     }

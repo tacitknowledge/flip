@@ -18,17 +18,20 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
- *
+ * The converter used to convert float values from string.
+ * 
  * @author ssoloviov
  */
 public class FloatConverter implements Converter {
     
     private static final Class[] MANAGED_CLASSES = new Class[] { Float.TYPE, Float.class };
 
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGED_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return NumberUtils.toFloat(expression);
     }

@@ -42,18 +42,18 @@ public class AnnotatedFlipSpringConfigTest {
     
     @Test
     public void testCreateFlipHandlerAspect() {
-        assertTrue(context.containsBeanDefinition("flipHandlerAspect"));
+        assertTrue(context.containsBeanDefinition(FlipSpringAspect.ASPECT_BEAN_NAME));
         
-        FlipSpringAspect aspect = context.getBean("flipHandlerAspect", FlipSpringAspect.class);
+        FlipSpringAspect aspect = context.getBean(FlipSpringAspect.ASPECT_BEAN_NAME, FlipSpringAspect.class);
         assertNotNull(aspect.getFeatureService());
-        assertNotNull(aspect.getDisabledUrl());
-        assertEquals("test", aspect.getDisabledUrl());
+        assertNotNull(aspect.getDefaultValue());
+        assertEquals("test", aspect.getDefaultValue());
     }
 
     @Test
     public void testCreateFeatureService() {
-        assertTrue(context.containsBeanDefinition("featureService"));
-        assertNotNull(context.getBean("featureService", FeatureService.class));
+        assertTrue(context.containsBeanDefinition(FlipSpringAspect.FEATURE_SERVICE_BEAN_NAME));
+        assertNotNull(context.getBean(FlipSpringAspect.FEATURE_SERVICE_BEAN_NAME, FeatureService.class));
     }
     
     @Configuration
@@ -63,8 +63,8 @@ public class AnnotatedFlipSpringConfigTest {
         @Autowired
         public FeatureService featureService;
         
-        @Bean(name="flipHandlerAspect")
-        public FlipSpringAspect flipHandlerAspect() {
+        @Bean
+        public FlipSpringAspect flipSpringAspect() {
             return AnnotatedFlipSpringConfig.createFlipSpringAspect(featureService, "test");
         }
         

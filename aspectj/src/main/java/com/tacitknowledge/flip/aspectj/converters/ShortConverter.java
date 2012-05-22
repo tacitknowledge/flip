@@ -18,17 +18,20 @@ package com.tacitknowledge.flip.aspectj.converters;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
- *
+ * The converted used to convert short values from string.
+ * 
  * @author ssoloviov
  */
 public class ShortConverter implements Converter {
 
     private static final Class[] MANAGED_CLASSES = new Class[] { Short.TYPE, Short.class };
     
+    /** {@inheritDoc } */
     public Class[] getManagedClasses() {
         return MANAGED_CLASSES;
     }
 
+    /** {@inheritDoc } */
     public Object convert(String expression, Class outputClass) {
         return NumberUtils.toShort(expression);
     }

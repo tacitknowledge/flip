@@ -18,12 +18,19 @@ package com.tacitknowledge.flip.aspectj;
 import org.aspectj.lang.annotation.Aspect;
 
 /**
- *
+ * The default AspectJ aspect. When you configure the AspectJ specify this
+ * aspect to intercept all methods annotated with {@link Flippable}.
+ * 
  * @author ssoloviov
  */
 @Aspect
 public class FlipAspectJAspect extends FlipAbstractAspect {
     
+    /**
+     * Instantiates and returns the aspect to AspectJ.
+     * 
+     * @return the {@link FlipAspectJAspect} instance.
+     */
     public static FlipAspectJAspect aspectOf() {
         return new FlipAspectJAspect();
     }    

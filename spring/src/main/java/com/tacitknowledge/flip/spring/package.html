@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        The classes which allows you to enable Spring AOP intercepting methods/controllers in your application.
+        <h2>Setup</h2>
+        <p>
+            To enable Spring AOP you should declare them in your context. This module allows you to
+            declare in XML contexts and in Java Config contexts.
+        </p>
+        <h3>XML Contexts</h3>
+        <p>
+            To do this you should firstly declare the namespace <code>http://www.tacitknowledge.com/flip/spring</code> in you context XML
+            like as did here:
+        </p>
+        <pre>
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       <strong>xmlns:flip="http://www.tacitknowledge.com/flip/spring"</strong>
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.tacitknowledge.com/flip/spring http://www.tacitknowledge.com/flip/spring/flip-spring.xsd"&gt;
+        </pre>
+        
+        <p>
+            After this you should declare two elements: <code>flip:feature-service</code> and <code>flip:intercept-handlers</code>.
+        </p>
+        <h4>flip:feature-service</h4>
+        <p>
+            This element creates the feature service in declarative style. It uses <code>FeatureServiceDirectFactory</code> to
+            instantiate the <code>FeatureService</code>. <br />
+            To add context providers place them inside <code>flip:context-providers</code>. As nested elements could
+            be a list of <code>bean:bean</code> and <code>bean:ref</code>. <br />
+            To add property readers place them inside <code>flip:property-readers</code>. As nested elements could
+            be a list of <code>bean:bean</code> and <code>bean:ref</code>. <br />
+            If you have to declare some properties to configure property readers use <code>flip:properties</code> element
+            inside <code>flip:feature-service</code>. Here could be nested only <code>bean:prop</code> elements.
+        </p>
+        <p>
+            Also, alternatively, you could pass the <code>Environment</code> object itself. This could be done by passing the 
+            environment bean name to <code>environment</code> attribute.
+        </p>
+        <p>below you can see some usage examples:</p>
+        <pre>
+&lt;<strong>flip:feature-service</strong>&gt;
+&nbsp;&nbsp;&lt;<strong>flip:property-readers</strong>&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<strong>bean</strong> class="com.tacitknowledge.flip.properties.XmlPropertyReader" /&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<strong>ref</strong> bean="propertyReaderBean" /&gt;
+&nbsp;&nbsp;&lt;<strong>/flip:property-readers</strong>&gt;
+&nbsp;&nbsp;&lt;<strong>flip:context-providers</strong>&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<strong>bean</strong> class="com.tacitknowledge.flip.context.SystemPropertiesContextProvider" /&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<strong>ref</strong> bean="contextProviderBean" /&gt;
+&nbsp;&nbsp;&lt;<strong>/flip:context-providers</strong>&gt;
+&nbsp;&nbsp;&lt;<strong>flip:properties</strong>&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<strong>prop</strong> key="aa" &gt;bb&lt;<strong>/prop</strong>&gt;
+&nbsp;&nbsp;&lt;<strong>/flip:properties</strong>&gt;
+&lt;<strong>/flip:feature-service</strong>&gt;
+
+&lt;<strong>bean</strong> id="contextProviderBean" class="com.tacitknowledge.flip.context.SystemPropertiesContextProvider" /&gt;
+&lt;<strong>bean</strong> id="propertyReaderBean" class="com.tacitknowledge.flip.properties.XmlPropertyReader" /&gt;
+        </pre>
+        And another example with <code>environment</code> set.
+        <pre>
+&lt;<strong>flip:feature-service</strong> environment="environmentBean" /&gt;
+
+&lt;<strong>bean</strong> id="environmentBean" class="com.tacitknowledge.flip.Environment"&gt;&lt;<strong>/bean</strong>&gt;
+        </pre>
+        
+        <br />
+        <p>
+            If you would like to create the <code>FeatureService</code> in your custom mode
+            you only have to name that bean as <code>featureService</code>.
+        </p>
+        <h4>flip:intercept-handlers</h4>
+        <p>
+            This element instantiates the aspect object. 
+            This element has only one configuration parameter: <code>default-url</code>
+            where you can pass the default url used to specify the view name 
+            of the page to show when the controller is disabled.
+        </p>
+        
+        <h3>Java Config</h3>
+        <p>
+            If you would like to use Spring Java Confguration you should create the 
+            class marked with <code>Configuration</code> configuration which should
+            import the <a href="config/AnnotatedFlipSpringConfig.html">AnnotatedFlipSpringConfig</a>
+            configuration class. Inside this configuration you should create the 
+            <code>flipSpringAspect</code> bean. This bean should be created using
+            <a href="config/AnnotatedFlipSpringConfig.html#createFlipSpringAspect(com.tacitknowledge.flip.FeatureService, java.lang.String)">
+                AnnotatedFlipSpringConfig#createFlipSpringAspect(com.tacitknowledge.flip.FeatureService, java.lang.String)
+            </a> static method or
+            <a href="config/AnnotatedFlipSpringConfig.html#createFlipSpringAspect(java.lang.String)">
+                AnnotatedFlipSpringConfig#createFlipSpringAspect(java.lang.String)
+            </a>. So the code of bean could look like in this example:
+        </p>
+        <pre>
+        @ Autowired
+        public FeatureService featureService;
+        
+        @ Bean
+        public FlipSpringAspect flipSpringAspect() {
+            return AnnotatedFlipSpringConfig.createFlipSpringAspect(featureService, "test");
+        }
+        </pre>
+        <p>
+            Also you need to create a bean of type <code>FeatureServiceDirectFactory</code>.
+        </p>
+        
+        <h2>Code usage</h2>
+        <p>
+            The base usage in code is the same as for clean Flip AspectJ integrated. 
+            Additional Spring specific feature that this module introduces is the ability to use 
+            Flip for Controllers and respective handlers. This is gained through the usage 
+            of <code>Flippable</code> annotations on the controller class and/or controller's methods, 
+            i.e. methods that are marked with <code>RequestMapping</code>, <code>ModelAttribute</code> 
+            and <code>ResponseBody</code> annotations.
+        </p>
+        
+        <style>
+            pre {
+                border: 1px solid silver;
+            }
+        </style>
+    </body>
+</html>
