@@ -23,10 +23,6 @@ public class SimpleFlipBootstrapServlet extends HttpServlet
     /** The init param containing a comma-separated list of packages containing context and property providers */
     public static final String PACKAGE_PATH = "package-path";
 
-    /** Package that are automatically included in the package path */
-    public static final String AUTOMATIC_PACKAGES = "com.tacitknowledge.flip.context, " +
-            "com.tacitknowledge.flip.servlet.properties";
-
     /** The servlet config. */
     private ServletConfig config;
 
@@ -71,7 +67,6 @@ public class SimpleFlipBootstrapServlet extends HttpServlet
         {
             packagePath = "";
         }
-        packagePath = AUTOMATIC_PACKAGES + "," + packagePath;
 
         // Split on either commas, colons, or semicolons and ignore leading and trailing whitespace
         return packagePath.split("\\s*[,:;]\\s*");

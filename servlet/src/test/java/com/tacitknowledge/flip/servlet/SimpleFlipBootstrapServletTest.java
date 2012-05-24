@@ -22,7 +22,7 @@ public class SimpleFlipBootstrapServletTest
     public void testPackagePathSplitting()
     {
         SimpleFlipBootstrapServlet servlet = new SimpleFlipBootstrapServlet();
-        String[] expectedPath = buildExpectedPackagePath("foo", "bar", "baz", "bat");
+        String[] expectedPath = new String[]{"foo", "bar", "baz", "bat"};
         // Test comma, colon, and semi-colon separators, with leading and trailing whitespace
         String[] actualPath = servlet.getPackagesToSearch("foo, bar :baz;bat");
 
@@ -40,11 +40,5 @@ public class SimpleFlipBootstrapServletTest
         SimpleFlipBootstrapServlet servlet = new SimpleFlipBootstrapServlet();
         servlet.init(mock(ServletConfig.class));
         assertNotNull(FlipContext.getFeatureService());
-    }
-
-    private String[] buildExpectedPackagePath(String... packages)
-    {
-        String[] autoPackages = SimpleFlipBootstrapServlet.AUTOMATIC_PACKAGES.split("\\s*[,:]\\s*");
-        return ObjectArrays.concat(autoPackages, packages, String.class);
     }
 }
