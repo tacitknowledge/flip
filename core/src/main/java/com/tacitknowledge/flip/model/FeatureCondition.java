@@ -78,6 +78,7 @@ public class FeatureCondition implements FeatureProcessor
     /**
      * Returns the name of property from {@link #getContext() context} to use in the condition. 
      * 
+     * @deprecated Use instead {@link #setExpression(java.lang.String) } to write condition expressions.
      * @return the name of property to test.
      */
     @Deprecated
@@ -88,6 +89,7 @@ public class FeatureCondition implements FeatureProcessor
     /**
      * Sets the name of property to use in the condition and which should be present in the {@link #getContext() context}.
      * 
+     * @deprecated Use instead {@link #setExpression(java.lang.String) } to write condition expressions.
      * @param name the name of property to test.
      */
     @Deprecated
@@ -98,6 +100,7 @@ public class FeatureCondition implements FeatureProcessor
     /**
      * Returns the operation used to test the property. 
      * 
+     * @deprecated Use instead {@link #setExpression(java.lang.String) } to write condition expressions.
      * @return the operation applied to test the property.
      */
     @Deprecated
@@ -108,6 +111,7 @@ public class FeatureCondition implements FeatureProcessor
     /**
      * Sets the operation used to test the property. 
      * 
+     * @deprecated Use instead {@link #setExpression(java.lang.String) } to write condition expressions.
      * @param operation the operation used to perocess the condition.
      */
     @Deprecated
@@ -118,6 +122,7 @@ public class FeatureCondition implements FeatureProcessor
     /**
      * Returns the value which is used as a right parameter in the operation {@link #getOperation() operation}. 
      * 
+     * @deprecated Use instead {@link #setExpression(java.lang.String) } to write condition expressions.
      * @return the value used to test the property.
      */
     public String getValue() {
@@ -127,6 +132,7 @@ public class FeatureCondition implements FeatureProcessor
     /**
      * Sets the value used to process the condition. 
      * 
+     * @deprecated Use instead {@link #setExpression(java.lang.String) } to write condition expressions.
      * @param value the value used to test the property.
      */
     @Deprecated
@@ -134,10 +140,20 @@ public class FeatureCondition implements FeatureProcessor
         this.value = value;
     }
 
+    /**
+     * Returns the JeXL expression used to evaluate the condition.
+     * 
+     * @return the JeXL expression
+     */
     public String getExpression() {
         return expression;
     }
 
+    /**
+     * Sets the JeXL expression used to evaluate the condition.
+     * 
+     * @param expression the expression to evaluate.
+     */
     public void setExpression(String expression) {
         this.expression = expression;
     }

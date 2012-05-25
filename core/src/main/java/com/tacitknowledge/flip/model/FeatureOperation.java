@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 /**
  * The operations enum used to process the rule conditions. 
  * 
+ * @deprecated Use instead {@link FeatureCondition#context} to write conditions.
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 @XmlEnum
