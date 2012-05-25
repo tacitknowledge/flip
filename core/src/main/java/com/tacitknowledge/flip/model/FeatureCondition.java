@@ -42,12 +42,15 @@ public class FeatureCondition implements FeatureProcessor
     private String context = ContextMap.GLOBAL;
 
     @XmlAttribute
+    @Deprecated
     private String name;
 
     @XmlAttribute()
+    @Deprecated
     private FeatureOperation operation = FeatureOperation.EQUALS;
 
     @XmlAttribute
+    @Deprecated
     private String value;
     
     @XmlValue
@@ -77,6 +80,7 @@ public class FeatureCondition implements FeatureProcessor
      * 
      * @return the name of property to test.
      */
+    @Deprecated
     public String getName() {
         return name;
     }
@@ -86,6 +90,7 @@ public class FeatureCondition implements FeatureProcessor
      * 
      * @param name the name of property to test.
      */
+    @Deprecated
     public void setName(String name) {
         this.name = name;
     }
@@ -95,6 +100,7 @@ public class FeatureCondition implements FeatureProcessor
      * 
      * @return the operation applied to test the property.
      */
+    @Deprecated
     public FeatureOperation getOperation() {
         return operation;
     }
@@ -104,6 +110,7 @@ public class FeatureCondition implements FeatureProcessor
      * 
      * @param operation the operation used to perocess the condition.
      */
+    @Deprecated
     public void setOperation(FeatureOperation operation) {
         this.operation = operation;
     }
@@ -122,6 +129,7 @@ public class FeatureCondition implements FeatureProcessor
      * 
      * @param value the value used to test the property.
      */
+    @Deprecated
     public void setValue(String value) {
         this.value = value;
     }

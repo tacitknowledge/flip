@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
  */
 @XmlEnum
+@Deprecated
 public enum FeatureOperation {
     
     /**
