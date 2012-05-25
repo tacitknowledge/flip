@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
@@ -40,14 +41,17 @@ public class FeatureCondition implements FeatureProcessor
     @XmlAttribute()
     private String context = ContextMap.GLOBAL;
 
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private String name;
 
     @XmlAttribute()
     private FeatureOperation operation = FeatureOperation.EQUALS;
 
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private String value;
+    
+    @XmlValue
+    private String expression;
 
     /**
      * Returns the context used to process the condition. If the context is equal
@@ -122,6 +126,14 @@ public class FeatureCondition implements FeatureProcessor
         this.value = value;
     }
 
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
     /**
      * Processes the condition accordingly with the context manager used. This 
      * method builds the expression from the options passed so that the property 
@@ -136,10 +148,16 @@ public class FeatureCondition implements FeatureProcessor
     public FeatureState process(final ContextManager contextManager)
     {
         final JexlEngine jexlEngine = new JexlEngine();
-        final Expression expression = jexlEngine.createExpression(operation.buildCondition(name, value));
+        Expression jexlExpression;
+        if (expression != null) {
+            jexlExpression = jexlEngine.createExpression(expression);
+        } else {
+            jexlExpression = jexlEngine.createExpression(operation.buildCondition(name, value));
+            
+        }
         final Map<String, Object> contextMap = contextManager.getContext(context);
         final JexlContext jexlContext = new MapContext(contextMap);
 
-        return Boolean.TRUE.equals(expression.evaluate(jexlContext)) ? FeatureState.ENABLED : FeatureState.DISABLED;
+        return Boolean.TRUE.equals(jexlExpression.evaluate(jexlContext)) ? FeatureState.ENABLED : FeatureState.DISABLED;
     }
 }

@@ -99,6 +99,42 @@ public class FeatureConditionTest extends AbstractFeatureProcessorTest {
         assertEquals(FeatureState.ENABLED, condition.process(contextManager));
     }
     
+    @Test
+    public void testJexl() {
+        condition.setExpression("count == 10");
+        assertEquals(FeatureState.ENABLED, condition.process(contextManager));
+    }
+    
+    @Test
+    public void testJexlFailed() {
+        condition.setExpression("count == 11");
+        assertEquals(FeatureState.DISABLED, condition.process(contextManager));
+    }
+    
+    @Test
+    public void testJexlUsingContext() {
+        condition.setContext("main");
+        condition.setExpression("count == 10");
+        assertEquals(FeatureState.ENABLED, condition.process(contextManager));
+    }
+    
+    @Test
+    public void testJexlUsingInvalidContext() {
+        condition.setContext("up");
+        condition.setExpression("count == 10");
+        assertEquals(FeatureState.DISABLED, condition.process(contextManager));
+    }
+    
+    @Test
+    public void testJexlPriorityOverOldStyle() {
+        condition.setContext(ContextMap.GLOBAL);
+        condition.setName("param");
+        condition.setOperation(FeatureOperation.EQUALS);
+        condition.setValue("PARAM VALUE");
+        condition.setExpression("count != 10");
+        assertEquals(FeatureState.DISABLED, condition.process(contextManager));
+    }
+    
     public static class SomeObject {
         
         public String getNestedValue() {

@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlList;
+import javax.xml.bind.annotation.XmlValue;
 
 import com.tacitknowledge.flip.context.ContextManager;
 
@@ -36,7 +38,7 @@ public class FeatureRule implements FeatureProcessor
     @XmlAttribute(required = true)
     private FeatureState state;
 
-    @XmlElements(@XmlElement(name = "condition", namespace=FeatureDescriptors.NAMESPACE))
+    @XmlElements(value=@XmlElement(name = "condition", namespace=FeatureDescriptors.NAMESPACE))
     private FeatureCondition[] conditions;
 
     /**

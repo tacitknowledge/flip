@@ -134,8 +134,36 @@ public class XmlPropertyReaderTest {
         assertNotNull(featureDescriptor.getRules()[0]);
         assertEquals(FeatureState.ENABLED, featureDescriptor.getRules()[0].getState());
         assertNotNull(featureDescriptor.getRules()[0].getConditions());
-        assertEquals(1, featureDescriptor.getRules()[0].getConditions().length);
+        assertEquals(2, featureDescriptor.getRules()[0].getConditions().length);
         assertNotNull(featureDescriptor.getRules()[0].getConditions()[0]);
+        assertEquals("a", featureDescriptor.getRules()[0].getConditions()[0].getContext());
+        assertEquals("prop", featureDescriptor.getRules()[0].getConditions()[0].getName());
+        assertEquals(FeatureOperation.EQUALS, featureDescriptor.getRules()[0].getConditions()[0].getOperation());
+        assertEquals("1", featureDescriptor.getRules()[0].getConditions()[0].getValue());
+
+        assertNotNull(featureDescriptor.getRules()[1]);
+        assertEquals(FeatureState.DISABLED, featureDescriptor.getRules()[1].getState());
+        assertNull(featureDescriptor.getRules()[1].getConditions());
+    }
+    
+    @Test
+    public void testFindFeatureWithJexlConditionDescriptor() {
+        props.setProperty(XmlPropertyReader.CONFIG_PROPERTY, CONFIG_FILE1);
+        propertyReader.initialize(props);
+        FeatureDescriptor featureDescriptor = propertyReader.getFeatureDescriptor("test");
+        
+        assertNotNull(featureDescriptor);
+        assertEquals("test", featureDescriptor.getName());
+        assertEquals(FeatureState.ENABLED, featureDescriptor.getState());
+        
+        assertNotNull(featureDescriptor.getRules());
+        assertEquals(2, featureDescriptor.getRules().length);
+        assertNotNull(featureDescriptor.getRules()[0]);
+        assertEquals(FeatureState.ENABLED, featureDescriptor.getRules()[0].getState());
+        assertNotNull(featureDescriptor.getRules()[0].getConditions());
+        assertEquals(2, featureDescriptor.getRules()[0].getConditions().length);
+        assertNotNull(featureDescriptor.getRules()[0].getConditions()[0]);
+        assertEquals("a = 1", featureDescriptor.getRules()[0].getConditions()[1].getExpression());
         assertEquals("a", featureDescriptor.getRules()[0].getConditions()[0].getContext());
         assertEquals("prop", featureDescriptor.getRules()[0].getConditions()[0].getName());
         assertEquals(FeatureOperation.EQUALS, featureDescriptor.getRules()[0].getConditions()[0].getOperation());

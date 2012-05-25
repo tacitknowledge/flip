@@ -6,4 +6,5 @@
 target
 tmp
 nb-configuration.xml
+nbactions.xml
 

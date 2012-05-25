@@ -3,6 +3,7 @@
     <feature name="test" state="enabled">
         <rule state="enabled">
             <condition context="a" name="prop" operation="eq" value="1" />
+            <condition>a = 1</condition>
         </rule>
         <rule state="disabled" />
     </feature>
