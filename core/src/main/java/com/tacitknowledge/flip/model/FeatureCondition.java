@@ -176,12 +176,16 @@ public class FeatureCondition implements FeatureProcessor
         if (expression != null) {
             jexlExpression = jexlEngine.createExpression(expression);
         } else {
-            jexlExpression = jexlEngine.createExpression(operation.buildCondition(name, value));
-            
+            jexlExpression = getOldExpression(jexlEngine);
         }
+        
         final Map<String, Object> contextMap = contextManager.getContext(context);
         final JexlContext jexlContext = new MapContext(contextMap);
 
         return Boolean.TRUE.equals(jexlExpression.evaluate(jexlContext)) ? FeatureState.ENABLED : FeatureState.DISABLED;
+    }
+    
+    private Expression getOldExpression(JexlEngine engine) {
+        return engine.createExpression(operation.buildCondition(name, value));
     }
 }
