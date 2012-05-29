@@ -14,11 +14,18 @@
 */
 package com.tacitknowledge.flip.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.tacitknowledge.flip.context.ContextManager;
 
@@ -40,6 +47,10 @@ public class FeatureDescriptor implements FeatureProcessor
     @XmlElements(@XmlElement(name = "rule", namespace=FeatureDescriptors.NAMESPACE))
     private FeatureRule[] rules;
 
+    @XmlAttribute(name="expiration-date")
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    private Date expirationDate;
+    
     /**
      * Returns the name of the feature. 
      * 
@@ -96,6 +107,14 @@ public class FeatureDescriptor implements FeatureProcessor
         this.state = state;
     }
 
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     /**
      * Processes the state of the feature. If this feature descriptor has set 
      * the overriding state then no rules will be processed and this state will 
@@ -109,6 +128,10 @@ public class FeatureDescriptor implements FeatureProcessor
     @Override
     public FeatureState process(final ContextManager contextManager)
     {
+        if (expirationDate != null) {
+            Logger.getLogger(this.getClass().getName()).warning(String.format("The feature [%s] is expired. The expiration date is %t", name, expirationDate));
+        }
+        
         if (state != null)
         {
             return state;
@@ -131,4 +154,38 @@ public class FeatureDescriptor implements FeatureProcessor
         return null;
     }
 
+    private static class DateAdapter extends XmlAdapter<String, Date> {
+
+        private static final Pattern DATE_PATTERN = Pattern.compile("\\d{4}-\\d{1,2}-\\d{1,2}(\\s+\\d{1,2}:\\d{1,2}(\\s*[+-]?\\d{4})?)?");
+        
+        @Override
+        public Date unmarshal(String value) throws Exception {
+            if (value == null) {
+                return null;
+            }
+            
+            Matcher m = DATE_PATTERN.matcher(value);
+            if (!m.matches()) {
+                return null;
+            }
+            
+            Date date = null;
+            if (m.group(1) == null) {
+                date = new SimpleDateFormat("yyyy-M-d").parse(value);
+            } else if (m.group(2) == null) {
+                date = new SimpleDateFormat("yyyy-M-d H:m").parse(value);
+            } else {
+                date = new SimpleDateFormat("yyyy-M-d H:m Z").parse(value);
+            }
+            
+            return date;
+        }
+
+        @Override
+        public String marshal(Date value) throws Exception {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm Z").format(value);
+        }
+        
+    }
+    
 }

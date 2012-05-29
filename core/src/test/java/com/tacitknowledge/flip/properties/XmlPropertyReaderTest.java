@@ -18,7 +18,10 @@ import com.tacitknowledge.flip.model.FeatureDescriptor;
 import com.tacitknowledge.flip.model.FeatureOperation;
 import com.tacitknowledge.flip.model.FeatureState;
 import java.io.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.hamcrest.Matchers.containsString;
@@ -157,6 +160,17 @@ public class XmlPropertyReaderTest {
         assertEquals(FeatureState.ENABLED, featureDescriptor.getState());
         
         assertNotNull(featureDescriptor.getRules());
+        
+        Date expirationDate = featureDescriptor.getExpirationDate();
+        assertNotNull(expirationDate);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        calendar.setTime(expirationDate);
+        assertEquals(2012, calendar.get(Calendar.YEAR));
+        assertEquals(11, calendar.get(Calendar.MONTH));
+        assertEquals(21, calendar.get(Calendar.DATE));
+        assertEquals(10, calendar.get(Calendar.HOUR_OF_DAY));
+        assertEquals(21, calendar.get(Calendar.MINUTE));
+        
         assertEquals(2, featureDescriptor.getRules().length);
         assertNotNull(featureDescriptor.getRules()[0]);
         assertEquals(FeatureState.ENABLED, featureDescriptor.getRules()[0].getState());
