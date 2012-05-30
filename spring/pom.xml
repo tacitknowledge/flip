@@ -142,26 +142,23 @@
                                 <Bundle-Name>flip-${project.artifactId}</Bundle-Name>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Import-Package>
+                                    com.tacitknowledge.flip;version="[1.0,2)",
+                                    com.tacitknowledge.flip.aspectj;version="[1.0,2)",
+                                    com.tacitknowledge.flip.aspectj.converters;version="[1.0,2)",
+                                    org.aspectj.lang.annotation,
                                     org.osgi.framework,
-                                    *;resolution:=optional
-                                    
-com.tacitknowledge.flip;version="[1.0,2)",
-com.tacitknowledge.flip.aspectj;version="[1.0,2)",
-com.tacitknowledge.flip.aspectj.converters;version="[1.0,2)",
-org.aspectj.lang.annotation,
-org.osgi.framework,
-org.springframework.beans;version="[3.0,4)",
-org.springframework.beans.factory.annotation;resolution:=optional;version="[3.0,4)",
-org.springframework.beans.factory.config;resolution:=optional;version="[3.0,4)",
-org.springframework.beans.factory.support;version="[3.0,4)",
-org.springframework.beans.factory.xml;resolution:=optional;version="[3.0,4)",
-org.springframework.context.annotation;resolution:=optional;version="[3.0,4)",
-org.springframework.core.annotation;resolution:=optional;version="[3.0,4)",
-org.springframework.core.io;version="[3.0,4)",
-org.springframework.expression;resolution:=optional;version="[3.0,4)",
-org.springframework.expression.spel.standard;resolution:=optional;version="[3.0,4)",
-org.springframework.util.xml;resolution:=optional;version="[3.0,4)",
-org.w3c.dom;resolution:=optional 
+                                    org.springframework.beans;version="[3.0,4)",
+                                    org.springframework.beans.factory.annotation;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.beans.factory.config;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.beans.factory.support;version="[3.0,4)",
+                                    org.springframework.beans.factory.xml;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.context.annotation;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.core.annotation;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.core.io;version="[3.0,4)",
+                                    org.springframework.expression;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.expression.spel.standard;resolution:=optional;version="[3.0,4)",
+                                    org.springframework.util.xml;resolution:=optional;version="[3.0,4)",
+                                    org.w3c.dom;resolution:=optional 
                                 </Import-Package>
                             </instructions>
                         </configuration>
