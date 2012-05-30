@@ -26,11 +26,6 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.tacitknowledge.flip.model.FeatureDescriptor;
 
@@ -99,6 +94,16 @@ public class XmlPropertyReader extends RefreshablePropertyReader
      */
     public static final String CONFIG_FILE_NAME = "flip.properties.xml";
 
+    private ClassLoader resourceClassLoader;
+
+    public XmlPropertyReader(ClassLoader resourceClassLoader) {
+        this.resourceClassLoader = resourceClassLoader;
+    }
+
+    public XmlPropertyReader() {
+        this(Thread.currentThread().getContextClassLoader());
+    }
+    
     /**
      * Returns the stream with XML configuration file content. Firstly this 
      * method looks up for a property {@link #CONFIG_PROPERTY} in properties passed 
@@ -123,7 +128,7 @@ public class XmlPropertyReader extends RefreshablePropertyReader
             return result;
         }
 
-        result = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
+        result = resourceClassLoader.getResourceAsStream(CONFIG_FILE_NAME);
         if (result != null)
         {
             return result;
@@ -150,7 +155,7 @@ public class XmlPropertyReader extends RefreshablePropertyReader
         try
         {
             final String path = props.getProperty(CONFIG_PROPERTY);
-            if (path == null)
+            if (path == null) 
             {
                 return null;
             }

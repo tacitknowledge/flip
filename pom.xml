@@ -54,7 +54,7 @@
         <module>servlet</module>
         <module>spring</module>
         <module>aspectj</module>
-    </modules>
+  </modules>
 
     <dependencies>
         <dependency>

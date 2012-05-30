@@ -45,7 +45,7 @@ public class FeatureCondition implements FeatureProcessor
     @Deprecated
     private String name;
 
-    @XmlAttribute()
+    @XmlAttribute
     @Deprecated
     private FeatureOperation operation = FeatureOperation.EQUALS;
 

@@ -66,6 +66,42 @@
                     </execution>
                 </executions>
             </plugin> 
+            
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <instructions>
+                                <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                                <Bundle-Name>flip-${project.artifactId}</Bundle-Name>
+                                <Bundle-Version>${project.version}</Bundle-Version>
+                                <Import-Package>
+                                    com.google.common.base;resolution:=optional,
+                                    com.google.common.collect;resolution:=optional,
+                                    com.tacitknowledge.flip;version="[1.0,2)",
+                                    com.tacitknowledge.flip.exceptions;version="[1.0,2)",
+                                    com.tacitknowledge.flip.model;version="[1.0,2)",
+                                    com.tacitknowledge.flip.properties;version="[1.0,2)",
+                                    javax.servlet,
+                                    javax.servlet.http,
+                                    javax.servlet.jsp;version="[2.2,3)",
+                                    javax.servlet.jsp.tagext;version="[2.2,3)",
+                                    org.osgi.framework                                    
+                                </Import-Package>
+                            </instructions>
+                        </configuration>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>                        
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>            
+            
         </plugins>
     </build>
 

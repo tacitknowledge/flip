@@ -43,6 +43,7 @@
                     <project>${project}</project>
                     <destdir>${project.build.directory}/schemas/META-INF</destdir>
                     <srcdir>${project.build.sourceDirectory}</srcdir>
+                    <verbose>true</verbose>
                     <includes>
                         <include>com/tacitknowledge/flip/model/FeatureDescriptors.java</include>
                         <include>com/tacitknowledge/flip/model/FeatureDescriptor.java</include>
@@ -51,6 +52,9 @@
                         <include>com/tacitknowledge/flip/model/FeatureOperation.java</include>
                         <include>com/tacitknowledge/flip/model/FeatureState.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>javax.​xml.​bind.​annotation.​adapters.XmlAdapter</exclude>
+                    </excludes>
                     <schemas>
                         <schema>
                             <namespace>http://www.tacitknowledge.com/flip</namespace>
@@ -102,6 +106,32 @@
                     </execution>
                 </executions>
             </plugin> 
+            
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <instructions>
+                                <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                                <Bundle-Name>flip-${project.artifactId}</Bundle-Name>
+                                <Bundle-Version>${project.version}</Bundle-Version>
+                                <Import-Package>
+                                    org.osgi.framework,
+                                    *;resolution:=optional
+                                </Import-Package>
+                            </instructions>
+                        </configuration>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>                        
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>            
         </plugins>
     </build>
 
