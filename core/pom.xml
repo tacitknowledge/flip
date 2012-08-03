@@ -84,14 +84,6 @@
                         <artifactId>jaxb-xjc</artifactId>
                         <version>2.2</version>
                     </dependency>
-                    <dependency>
-                        <groupId>com.sun</groupId>
-                        <artifactId>tools</artifactId>
-                        <version>${java.version}</version>
-                        <scope>system</scope>
-                        <systemPath>${java.home}/../lib/tools.jar</systemPath>
-                    </dependency>
-                    
                 </dependencies>
             </plugin>
             
@@ -142,6 +134,36 @@
             </plugin>  
         </plugins>
     </build>
+
+	<profiles>
+		<profile>
+			<id>jdk7-fix</id>
+			<activation>
+				<file>
+					<exists>${java.home}/../lib/tools.jar</exists>
+				</file>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>com.sun.tools.jxc.maven2</groupId>
+							<artifactId>maven-jaxb-schemagen-plugin</artifactId>
+							<dependencies>
+								<dependency>
+									<groupId>com.sun</groupId>
+									<artifactId>tools</artifactId>
+									<version>${java.version}</version>
+									<scope>system</scope>
+									<systemPath>${java.home}/../lib/tools.jar</systemPath>
+								</dependency>
+							</dependencies>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
     
     <dependencies>
         <dependency>
