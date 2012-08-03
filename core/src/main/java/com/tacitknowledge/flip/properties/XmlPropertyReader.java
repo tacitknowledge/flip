@@ -38,6 +38,9 @@ import com.tacitknowledge.flip.model.FeatureDescriptor;
  * &nbsp;&nbsp;&lt;feature name="[name]" state="[overriding-state]"&gt;
  * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rule state="[state-to-apply]"&gt;
  * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;condition context="[context]" name="[property]" operation="[operation]" value="[value-to-compare]" /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;condition context="[context]" &gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[jexl-expression]
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/condition&gt;
  * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
  * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rule&gt;
  * &nbsp;&nbsp;&nbsp;&nbsp;...
@@ -70,12 +73,19 @@ import com.tacitknowledge.flip.model.FeatureDescriptor;
  * </dl>
  * </li>
  * <li>[value] - the value used to compare the property value using operator.</li>
+ * <li>[jexl-expression] - the value expression in JeXL used to process the condition.</li>
  * </ul>
  * </p>
  * <p>
  * The features, rules and conditions could be as many as you want.
  * The rules are applied sequentially as they are declared. The last rule should be without conditions
  * as a default rule. If none of conditions will match the last one will return the result.
+ * </p>
+ * <p>
+ * The conditions with attributes <code>name</code>, <code>operation</code> and <code>value</code>
+ * is deprecated. In place of this syntax is used the <code>condition</code> element
+ * with JeXL expression inside. The attribute <code>context</code> allows you to restrict the
+ * available context properties inside value expression.
  * </p>
  * 
  * @author Serghei Soloviov <ssoloviov@tacitknowledge.com>
