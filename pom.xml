@@ -28,6 +28,18 @@
         <coverage.packageBranchRate>42</coverage.packageBranchRate>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>disable-java8-doclint</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </properties>
+        </profile>
+    </profiles>
+
     <developers>
         <developer>
             <id>ssoloviov</id>
