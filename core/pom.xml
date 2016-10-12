@@ -27,66 +27,37 @@
         <plugins>
 
             <plugin>
-                <groupId>com.sun.tools.jxc.maven2</groupId>
-                <artifactId>maven-jaxb-schemagen-plugin</artifactId>
-                <version>1.2</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.2</version>
                 <executions>
                     <execution>
-                        <phase>generate-resources</phase>
+                        <id>schemagen</id>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>schemagen</goal>
                         </goals>
                     </execution>
                 </executions>
-
                 <configuration>
-                    <project>${project}</project>
-                    <destdir>${project.build.directory}/schemas/META-INF</destdir>
-                    <srcdir>${project.build.sourceDirectory}</srcdir>
-                    <verbose>true</verbose>
-                    <includes>
-                        <include>com/tacitknowledge/flip/model/FeatureDescriptors.java</include>
-                        <include>com/tacitknowledge/flip/model/FeatureDescriptor.java</include>
-                        <include>com/tacitknowledge/flip/model/FeatureRule.java</include>
-                        <include>com/tacitknowledge/flip/model/FeatureCondition.java</include>
-                        <include>com/tacitknowledge/flip/model/FeatureOperation.java</include>
-                        <include>com/tacitknowledge/flip/model/FeatureState.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>javax.​xml.​bind.​annotation.​adapters.XmlAdapter</exclude>
-                    </excludes>
-                    <schemas>
-                        <schema>
-                            <namespace>http://www.tacitknowledge.com/flip</namespace>
-                            <file>flip-${project.version}.xsd</file>
-                        </schema>
-                    </schemas>
-                    <verbose>true</verbose>
+                    <sources>
+                        <source>src/main/java/com/tacitknowledge/flip/model/FeatureDescriptors.java</source>
+                        <source>src/main/java/com/tacitknowledge/flip/model/FeatureDescriptor.java</source>
+                        <source>src/main/java/com/tacitknowledge/flip/model/FeatureRule.java</source>
+                        <source>src/main/java/com/tacitknowledge/flip/model/FeatureCondition.java</source>
+                        <source>src/main/java/com/tacitknowledge/flip/model/FeatureOperation.java</source>
+                        <source>src/main/java/com/tacitknowledge/flip/model/FeatureState.java</source>
+                    </sources>
+                    <outputDirectory>${project.build.directory}/schemas/META-INF</outputDirectory>
+                    <createJavaDocAnnotations>false</createJavaDocAnnotations>
+                    <transformSchemas>
+                            <transformSchema>
+                                <uri>http://www.tacitknowledge.com/flip</uri>
+                                <toFile>flip-${project.version}.xsd</toFile>
+                            </transformSchema>
+                        </transformSchemas>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>javax.xml.bind</groupId>
-                        <artifactId>jaxb-api</artifactId>
-                        <version>2.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-xjc</artifactId>
-                        <version>2.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-impl</artifactId>
-                        <version>2.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-xjc</artifactId>
-                        <version>2.2</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -134,36 +105,6 @@
             </plugin>  
         </plugins>
     </build>
-
-	<profiles>
-		<profile>
-			<id>jdk7-fix</id>
-			<activation>
-				<file>
-					<exists>${java.home}/../lib/tools.jar</exists>
-				</file>
-			</activation>
-			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>com.sun.tools.jxc.maven2</groupId>
-							<artifactId>maven-jaxb-schemagen-plugin</artifactId>
-							<dependencies>
-								<dependency>
-									<groupId>com.sun</groupId>
-									<artifactId>tools</artifactId>
-									<version>${java.version}</version>
-									<scope>system</scope>
-									<systemPath>${java.home}/../lib/tools.jar</systemPath>
-								</dependency>
-							</dependencies>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
-		</profile>
-	</profiles>
     
     <dependencies>
         <dependency>
