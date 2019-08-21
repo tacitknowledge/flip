@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.2.18.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
