@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.2.9.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.2.9.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
